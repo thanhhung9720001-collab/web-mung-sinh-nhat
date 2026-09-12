@@ -37,6 +37,10 @@
   backdrop-filter: blur(1rem);
 }
 
+.countdownCard {
+  width: min(100%, 42rem);
+}
+
 .eyebrow {
   color: var(--color-text-muted);
   font-size: var(--text-xs);
@@ -69,6 +73,47 @@
   color: var(--color-text-secondary);
   line-height: var(--leading-relaxed);
   text-wrap: balance;
+}
+
+.countdownSection {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.countdown {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+.countdownUnit {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-4) var(--space-2);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-lg);
+  background: rgb(255 232 241 / 7%);
+}
+
+.countdownUnit strong {
+  color: var(--color-star);
+  font-size: clamp(1.75rem, 9vw, 2.75rem);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.countdownUnit span,
+.openingTime {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.openingTime {
+  line-height: var(--leading-normal);
 }
 
 .loginForm,
@@ -135,5 +180,9 @@
 @media (min-width: 40rem) {
   .card {
     padding: var(--space-10);
+  }
+
+  .countdown {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
