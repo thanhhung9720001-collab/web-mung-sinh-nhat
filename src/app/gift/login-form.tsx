@@ -18,7 +18,7 @@ export function GiftLoginForm() {
   return (
     <form className={styles.loginForm} action={formAction}>
       <div className={styles.field}>
-        <label htmlFor="gift-password">Mật khẩu mở quà</label>
+        <label htmlFor="gift-password">Mật khẩu tụi mình gửi riêng</label>
         <input
           id="gift-password"
           name="password"
@@ -33,7 +33,7 @@ export function GiftLoginForm() {
       </div>
 
       <button type="submit" disabled={isPending}>
-        {isPending ? "Đang mở khóa..." : "Mở món quà"}
+        {isPending ? "Đợi tụi mình một chút..." : "Mở món quà nha"}
       </button>
 
       {state.message ? (
@@ -41,7 +41,7 @@ export function GiftLoginForm() {
           {state.message}
         </p>
       ) : (
-        <p className={styles.hint}>Cánh cửa này chỉ dành riêng cho bé Heo.</p>
+        <p className={styles.hint}>Gợi ý nhỏ: hỏi người đã gửi đường link này.</p>
       )}
     </form>
   );

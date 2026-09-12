@@ -44,14 +44,14 @@ export default async function ContributePage({ params }: ContributePageProps) {
       <div className={styles.glow} aria-hidden="true" />
       <div className={styles.shell}>
         <header className={styles.intro}>
-          <span className={styles.eyebrow}>Cánh cửa bí mật đã mở</span>
+          <span className={styles.eyebrow}>Một lời chúc gửi riêng</span>
           <div className={styles.star} aria-hidden="true">
             ✦
           </div>
-          <h1>Gửi một vì sao cho bé Heo</h1>
+          <h1>Viết vài điều cho Bé Heo nha</h1>
           <p>
-            Mỗi lời chúc sẽ trở thành một ngôi sao nhỏ trong món quà sinh nhật
-            dành riêng cho bé Heo.
+            Không cần viết thật hay đâu. Một câu đúng kiểu bạn nói chuyện với
+            Ngân là món quà dễ thương nhất rồi.
           </p>
         </header>
 

@@ -43,14 +43,14 @@ export default async function WishEditPage({ params }: WishEditPageProps) {
       <div className={styles.glow} aria-hidden="true" />
       <div className={styles.shell}>
         <header className={styles.intro}>
-          <span className={styles.eyebrow}>Link chỉnh sửa bí mật</span>
+          <span className={styles.eyebrow}>Mảnh giấy của riêng bạn</span>
           <div className={styles.star} aria-hidden="true">
             ✦
           </div>
-          <h1>Chỉnh lại vì sao của bạn</h1>
+          <h1>Sửa lại lời nhắn cho Bé Heo</h1>
           <p>
-            Sau khi lưu, lời chúc sẽ được chuyển về hàng chờ để quản trị viên
-            duyệt lại.
+            Cứ viết lại cho đúng ý bạn. Sau khi lưu, lời chúc sẽ chờ được duyệt
+            lại trước khi xuất hiện trong món quà.
           </p>
         </header>
 

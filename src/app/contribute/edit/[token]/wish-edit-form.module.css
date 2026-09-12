@@ -117,3 +117,79 @@
     padding: var(--space-10);
   }
 }
+
+/* Approved scrapbook theme */
+.form {
+  position: relative;
+  border-color: rgb(111 40 50 / 12%);
+  border-radius: 0.9rem 1.3rem 0.8rem 1.15rem;
+  color: #49383a;
+  background: var(--scrapbook-paper);
+  box-shadow: 0 1.5rem 3.5rem rgb(92 51 58 / 18%);
+  transform: rotate(0.15deg);
+}
+
+.form::before {
+  position: absolute;
+  top: -0.75rem;
+  left: 50%;
+  width: 7rem;
+  height: 2rem;
+  background: rgb(198 142 142 / 62%);
+  content: "";
+  transform: translateX(-50%) rotate(-2deg);
+}
+
+.field label,
+.field legend {
+  color: var(--scrapbook-ink);
+}
+
+.field input:not([type]),
+.field textarea {
+  border-color: rgb(111 40 50 / 22%);
+  border-radius: 0.6rem 0.85rem 0.55rem 0.8rem;
+  color: #49383a;
+  background: rgb(255 255 255 / 42%);
+}
+
+.choices label {
+  border-color: rgb(111 40 50 / 20%);
+  border-radius: 0.65rem 1rem 0.7rem 0.9rem;
+  color: #49383a;
+  background: rgb(255 255 255 / 30%);
+}
+
+.choices label:has(input:checked) {
+  border-color: var(--scrapbook-ink);
+  background: rgb(232 189 196 / 34%);
+}
+
+.choices input,
+.checkRow input,
+.consent input {
+  accent-color: var(--scrapbook-ink);
+}
+
+.checkRow,
+.consent {
+  color: #49383a;
+}
+
+.help,
+.status {
+  color: #796468;
+}
+
+.submitArea button {
+  border-radius: 0.7rem 1rem 0.65rem 0.9rem;
+  color: var(--scrapbook-paper);
+  background: var(--scrapbook-ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .form,
+  .form::before {
+    transform: none;
+  }
+}

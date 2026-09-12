@@ -21,16 +21,19 @@ export default async function GiftPage() {
 
   if (!isAuthenticated) {
     return (
-      <main className={styles.page}>
-        <div className={styles.glow} aria-hidden="true" />
-        <section className={styles.card}>
-          <span className={styles.eyebrow}>Một món quà chỉ dành cho em</span>
-          <span className={styles.star} aria-hidden="true">
-            ✦
-          </span>
-          <h1>Mở cánh cửa ngân hà</h1>
+      <main className={`${styles.page} ${styles.unlockPage}`}>
+        <div className={styles.paperGrain} aria-hidden="true" />
+        <div className={styles.cornerDoodles} aria-hidden="true">
+          <span>☆</span><span>♡</span><span>✦</span>
+        </div>
+        <section className={`${styles.card} ${styles.unlockCard}`}>
+          <span className={styles.tape} aria-hidden="true" />
+          <span className={styles.eyebrow}>17 · 09 · 2026</span>
+          <span className={styles.inkHeart} aria-hidden="true">♡</span>
+          <h1>Bé Heo ơi, có một món quà nhỏ...</h1>
           <p className={styles.description}>
-            Nhập mật khẩu bí mật để bước vào món quà sinh nhật của bé Heo.
+            Mọi người đã lén gom vài điều muốn nói với em vào đây. Nhập mật
+            khẩu rồi mở thử nha.
           </p>
           <GiftLoginForm />
         </section>
@@ -42,16 +45,21 @@ export default async function GiftPage() {
 
   if (getCurrentScheduleState(schedule) !== "gift-open") {
     return (
-      <main className={styles.page}>
-        <div className={styles.glow} aria-hidden="true" />
-        <section className={`${styles.card} ${styles.countdownCard}`}>
-          <span className={styles.eyebrow}>Cánh cửa đã nhận ra em</span>
-          <span className={styles.star} aria-hidden="true">
-            ✦
-          </span>
-          <h1>Ngân hà sắp thức giấc</h1>
+      <main className={`${styles.page} ${styles.nightPage}`}>
+        <div className={styles.paperGrain} aria-hidden="true" />
+        <div className={styles.constellation} aria-hidden="true">
+          <span>✦</span><span>☆</span><span>·</span><span>✧</span>
+          <span>·</span><span>☆</span><span>✦</span><span>·</span>
+        </div>
+        <section className={`${styles.card} ${styles.countdownCard} ${styles.nightCard}`}>
+          <span className={styles.eyebrow}>Đã nhận ra Bé Heo rồi</span>
+          <div className={styles.paperTitle}>
+            <span className={styles.tape} aria-hidden="true" />
+            <h1>Chờ thêm một chút xíu thôi</h1>
+          </div>
           <p className={styles.description}>
-            Món quà sẽ mở đúng thời khắc sinh nhật. Cứ để trang này ở đây nhé.
+            Tụi mình biết là em đang nóng ruột, nhưng đúng sinh nhật thì món
+            quà mới chịu mở cơ.
           </p>
           <GiftCountdown
             opensAt={schedule.giftOpensAt.toISOString()}
@@ -59,7 +67,7 @@ export default async function GiftPage() {
             opensAtLabel={formatAppDateTime(schedule.giftOpensAt)}
           />
           <form className={styles.logoutForm} action={logoutGift}>
-            <button type="submit">Đăng xuất</button>
+            <button type="submit">Thoát ra ngoài</button>
           </form>
         </section>
       </main>
@@ -67,19 +75,20 @@ export default async function GiftPage() {
   }
 
   return (
-    <main className={styles.page}>
-      <div className={styles.glow} aria-hidden="true" />
-      <section className={styles.card}>
-        <span className={styles.eyebrow}>Đã mở khóa món quà</span>
-        <span className={styles.star} aria-hidden="true">
-          ✦
-        </span>
-        <h1>Chào mừng bé Heo</h1>
+    <main className={`${styles.page} ${styles.nightPage}`}>
+      <div className={styles.paperGrain} aria-hidden="true" />
+      <section className={`${styles.card} ${styles.nightCard}`}>
+        <span className={styles.eyebrow}>Đúng 0 giờ rồi đó</span>
+        <div className={styles.paperTitle}>
+          <span className={styles.tape} aria-hidden="true" />
+          <h1>Chúc mừng sinh nhật Bé Heo!</h1>
+        </div>
         <p className={styles.description}>
-          Khoảnh khắc đã đến. Bầu trời sao đang được chuẩn bị ở bước tiếp theo.
+          Bầu trời của mọi người dành cho em đang được chuẩn bị ở bước tiếp
+          theo.
         </p>
         <form className={styles.logoutForm} action={logoutGift}>
-          <button type="submit">Đăng xuất</button>
+          <button type="submit">Thoát ra ngoài</button>
         </form>
       </section>
     </main>

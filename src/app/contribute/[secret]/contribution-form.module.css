@@ -283,3 +283,121 @@
     height: 6rem;
   }
 }
+
+/* Approved scrapbook theme */
+.form {
+  position: relative;
+  gap: var(--space-7);
+  border: 1px solid rgb(111 40 50 / 12%);
+  border-radius: 0.9rem 1.3rem 0.8rem 1.15rem;
+  color: #49383a;
+  background: var(--scrapbook-paper);
+  box-shadow: 0 1.5rem 3.5rem rgb(92 51 58 / 18%);
+  backdrop-filter: none;
+  transform: rotate(0.15deg);
+}
+
+.form::before {
+  position: absolute;
+  top: -0.75rem;
+  left: 50%;
+  width: 7rem;
+  height: 2rem;
+  background: rgb(198 142 142 / 62%);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 18%);
+  content: "";
+  transform: translateX(-50%) rotate(-2deg);
+}
+
+.field label,
+.fieldset legend,
+.choice strong {
+  color: var(--scrapbook-ink);
+}
+
+.field input,
+.field textarea {
+  border-color: rgb(111 40 50 / 22%);
+  border-radius: 0.6rem 0.85rem 0.55rem 0.8rem;
+  color: #49383a;
+  background: rgb(255 255 255 / 42%);
+}
+
+.field input:hover,
+.field textarea:hover,
+.field input:focus,
+.field textarea:focus {
+  border-color: var(--scrapbook-ink);
+}
+
+.field input::placeholder,
+.field textarea::placeholder,
+.hint,
+.choice small,
+.avatarPreview figcaption,
+.formPending {
+  color: #796468;
+}
+
+.field input[type="file"]::file-selector-button,
+.submitArea button {
+  border-radius: 0.7rem 1rem 0.65rem 0.9rem;
+  color: var(--scrapbook-paper);
+  background: var(--scrapbook-ink);
+}
+
+.avatarPreview img {
+  border-color: rgb(111 40 50 / 28%);
+  background: #ead8c8;
+  box-shadow: 0 0.6rem 1.5rem rgb(92 51 58 / 14%);
+  transform: rotate(-2deg);
+}
+
+.choice {
+  border-color: rgb(111 40 50 / 20%);
+  border-radius: 0.65rem 1rem 0.7rem 0.9rem;
+  color: #49383a;
+  background: rgb(255 255 255 / 30%);
+}
+
+.choice:hover,
+.choice:has(input:checked) {
+  border-color: var(--scrapbook-ink);
+  background: rgb(232 189 196 / 34%);
+}
+
+.choice input,
+.consent input {
+  accent-color: var(--scrapbook-ink);
+}
+
+.consent {
+  color: #49383a;
+}
+
+.formStatus {
+  color: #5f6544;
+}
+
+.editLinkNotice {
+  border-color: rgb(111 40 50 / 22%);
+  border-radius: 0.7rem 1rem 0.65rem 0.9rem;
+  color: #49383a;
+  background: rgb(232 189 196 / 24%);
+}
+
+.editLinkNotice a {
+  color: var(--scrapbook-ink);
+}
+
+.editLinkNotice small {
+  color: #796468;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .form,
+  .form::before,
+  .avatarPreview img {
+    transform: none;
+  }
+}

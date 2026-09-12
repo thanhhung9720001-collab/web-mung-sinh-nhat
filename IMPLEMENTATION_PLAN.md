@@ -111,6 +111,11 @@ Một giai đoạn chỉ được coi là hoàn thành khi đạt tiêu chí ngh
 **Phụ thuộc:** Giai đoạn 4
 **Trạng thái:** Đang thực hiện (2/11 mục hoàn thành)
 
+**Hạng mục giao diện bổ sung đã hoàn thành:**
+
+- [x] Đồng bộ `/gift`, trang gửi lời chúc và trang sửa lời chúc theo hướng “sổ lưu niệm thủ công dưới bầu trời đêm”; giữ `/admin` tối giản.
+- [x] Tạo `private-assets/gift/` làm nơi nhận ảnh thật ở máy local, bỏ qua toàn bộ ảnh trong Git và chỉ theo dõi file hướng dẫn.
+
 - [x] Xây đăng nhập `/gift` với mật khẩu riêng và cookie phiên.
 - [x] Xây màn hình đếm ngược theo `Asia/Ho_Chi_Minh`.
 - [ ] Tạo bầu trời sao từ các lời chúc `approved`.
@@ -225,3 +230,5 @@ Một giai đoạn chỉ được coi là hoàn thành khi đạt tiêu chí ngh
 | 12/09/2026 | Tách đăng nhập `/gift` bằng mật khẩu băm scrypt, khóa ký và cookie phiên riêng giới hạn trong đường dẫn `/gift` | Phiên người nhận không thể dùng thay phiên quản trị; mật khẩu thật và khóa ký không đi vào mã nguồn hoặc trình duyệt |
 | 12/09/2026 | Render mốc mở quà từ server và chạy đồng hồ đếm ngược phía trình duyệt bằng timestamp tuyệt đối, tự refresh khi về 0 | Tránh lệch hydration, giữ đúng múi giờ Việt Nam và chuyển trạng thái mà không cần người nhận tải lại trang |
 | 12/09/2026 | Chốt hướng “sổ lưu niệm thủ công dưới bầu trời đêm” với ảnh thật, hồng pastel và giấy kem | Tạo cảm giác gần gũi do con người làm, tránh thẩm mỹ glassmorphism/gradient phổ biến của giao diện sinh tự động |
+| 12/09/2026 | Đồng bộ giao diện người nhận và người gửi theo cùng ngôn ngữ sổ lưu niệm; giữ trang quản trị đơn giản | Tạo cảm giác món quà liền mạch cho người dùng chính và dành ngân sách triển khai cho trải nghiệm quan trọng hơn |
+| 12/09/2026 | Nhận ảnh thật qua `private-assets/gift/`, bỏ qua ảnh trong Git và không đặt trong `public/` | Tránh vô tình công khai ảnh cá nhân; ảnh chính thức sẽ được tối ưu rồi tải vào Supabase Storage riêng tư ở giai đoạn hoàn thiện |

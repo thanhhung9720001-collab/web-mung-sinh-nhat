@@ -24,6 +24,8 @@
 # misc
 .DS_Store
 *.pem
+/private-assets/gift/*
+!/private-assets/gift/README.md
 
 # debug
 npm-debug.log*

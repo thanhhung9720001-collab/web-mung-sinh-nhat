@@ -43,3 +43,31 @@
   color: var(--color-text-muted);
   font-size: var(--text-sm);
 }
+
+.panel {
+  border-color: rgb(111 40 50 / 12%);
+  border-radius: 0.9rem 1.3rem 0.8rem 1.15rem;
+  color: #49383a;
+  background: var(--scrapbook-paper);
+  box-shadow: 0 1.5rem 3.5rem rgb(92 51 58 / 18%);
+  backdrop-filter: none;
+}
+
+.icon,
+.panel h2 {
+  color: var(--scrapbook-ink);
+}
+
+.icon {
+  background: rgb(232 189 196 / 34%);
+  box-shadow: none;
+}
+
+.panel h2 {
+  font-family: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+}
+
+.panel p,
+.panel .time {
+  color: #6f595d;
+}
