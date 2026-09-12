@@ -99,8 +99,9 @@ Một giai đoạn chỉ được coi là hoàn thành khi đạt tiêu chí ngh
 
 **Thời gian:** 12–13/09/2026  
 **Phụ thuộc:** Giai đoạn 4
+**Trạng thái:** Đang thực hiện (1/11 mục hoàn thành)
 
-- [ ] Xây đăng nhập `/gift` với mật khẩu riêng và cookie phiên.
+- [x] Xây đăng nhập `/gift` với mật khẩu riêng và cookie phiên.
 - [ ] Xây màn hình đếm ngược theo `Asia/Ho_Chi_Minh`.
 - [ ] Tạo bầu trời sao từ các lời chúc `approved`.
 - [ ] Tạo luồng mở nội dung rồi tiết lộ ảnh và tên người gửi.
@@ -211,3 +212,4 @@ Một giai đoạn chỉ được coi là hoàn thành khi đạt tiêu chí ngh
 | 12/09/2026 | Nhập vị trí hiển thị dạng 1-based trong giao diện, lưu 0-based trong dữ liệu và chỉ cho phép cập nhật lời chúc đã duyệt | Dễ thao tác trên điện thoại, đúng schema hiện tại và giữ các mục chưa xếp ở cuối danh sách đã duyệt |
 | 12/09/2026 | Dùng `/admin/preview` làm chế độ xem thử riêng, chỉ tải lời chúc `approved` theo thứ tự và vẫn yêu cầu phiên quản trị | Cho phép kiểm tra nội dung trước giờ mở mà không mở quyền truy cập trang quà cho người nhận |
 | 12/09/2026 | Bổ sung link chỉnh sửa bí mật ký HMAC cho từng lời chúc, chỉ có hiệu lực đến lúc đóng cổng | Cho người gửi tự sửa mà không cần tài khoản và không công khai ID hoặc quyền truy cập lời chúc khác |
+| 12/09/2026 | Tách đăng nhập `/gift` bằng mật khẩu băm scrypt, khóa ký và cookie phiên riêng giới hạn trong đường dẫn `/gift` | Phiên người nhận không thể dùng thay phiên quản trị; mật khẩu thật và khóa ký không đi vào mã nguồn hoặc trình duyệt |

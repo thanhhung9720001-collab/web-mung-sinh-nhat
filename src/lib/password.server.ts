@@ -52,12 +52,15 @@ function parsePasswordHash(value: string | undefined): ParsedPasswordHash | null
   }
 }
 
-export function verifyAdminPassword(password: string): boolean {
+function verifyPasswordAgainstHash(
+  password: string,
+  configuredHash: string | undefined,
+): boolean {
   if (!password || password.length > MAX_PASSWORD_LENGTH) {
     return false;
   }
 
-  const parsed = parsePasswordHash(process.env.ADMIN_PASSWORD_HASH);
+  const parsed = parsePasswordHash(configuredHash);
 
   if (!parsed) {
     return false;
@@ -75,4 +78,12 @@ export function verifyAdminPassword(password: string): boolean {
   } catch {
     return false;
   }
+}
+
+export function verifyAdminPassword(password: string): boolean {
+  return verifyPasswordAgainstHash(password, process.env.ADMIN_PASSWORD_HASH);
+}
+
+export function verifyGiftPassword(password: string): boolean {
+  return verifyPasswordAgainstHash(password, process.env.GIFT_PASSWORD_HASH);
 }
