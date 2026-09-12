@@ -109,7 +109,7 @@ Một giai đoạn chỉ được coi là hoàn thành khi đạt tiêu chí ngh
 
 **Thời gian:** 12–13/09/2026  
 **Phụ thuộc:** Giai đoạn 4
-**Trạng thái:** Đang thực hiện (2/11 mục hoàn thành)
+**Trạng thái:** Đang thực hiện (3/11 mục hoàn thành)
 
 **Hạng mục giao diện bổ sung đã hoàn thành:**
 
@@ -118,7 +118,7 @@ Một giai đoạn chỉ được coi là hoàn thành khi đạt tiêu chí ngh
 
 - [x] Xây đăng nhập `/gift` với mật khẩu riêng và cookie phiên.
 - [x] Xây màn hình đếm ngược theo `Asia/Ho_Chi_Minh`.
-- [ ] Tạo bầu trời sao từ các lời chúc `approved`.
+- [x] Tạo bầu trời sao từ các lời chúc `approved`.
 - [ ] Tạo luồng mở nội dung rồi tiết lộ ảnh và tên người gửi.
 - [ ] Ghi nhận tiến độ khám phá theo phiên/trình duyệt.
 - [ ] Tính ngưỡng mở phần kết bằng `ceil(approvedTotal × 70%)`.
@@ -232,3 +232,4 @@ Một giai đoạn chỉ được coi là hoàn thành khi đạt tiêu chí ngh
 | 12/09/2026 | Chốt hướng “sổ lưu niệm thủ công dưới bầu trời đêm” với ảnh thật, hồng pastel và giấy kem | Tạo cảm giác gần gũi do con người làm, tránh thẩm mỹ glassmorphism/gradient phổ biến của giao diện sinh tự động |
 | 12/09/2026 | Đồng bộ giao diện người nhận và người gửi theo cùng ngôn ngữ sổ lưu niệm; giữ trang quản trị đơn giản | Tạo cảm giác món quà liền mạch cho người dùng chính và dành ngân sách triển khai cho trải nghiệm quan trọng hơn |
 | 12/09/2026 | Nhận ảnh thật qua `private-assets/gift/`, bỏ qua ảnh trong Git và không đặt trong `public/` | Tránh vô tình công khai ảnh cá nhân; ảnh chính thức sẽ được tối ưu rồi tải vào Supabase Storage riêng tư ở giai đoạn hoàn thiện |
+| 13/09/2026 | Mỗi lời chúc `approved` tạo một ngôi sao có thứ tự và hình dáng ổn định; truy vấn trang quà chỉ trả ID sau khi xác thực lại phiên | Giữ bầu trời nhất quán qua mỗi lần tải, không đưa tên, nội dung hoặc đường dẫn media xuống trình duyệt trước bước mở lời chúc |

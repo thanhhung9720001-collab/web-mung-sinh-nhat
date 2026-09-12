@@ -1,6 +1,7 @@
 import "server-only";
 
 import { hasValidAdminSession } from "@/lib/admin-session.server";
+import { hasValidGiftSession } from "@/lib/gift-session.server";
 import { verifyWishEditToken } from "@/lib/wish-edit-token.server";
 
 type WishContentType = "text" | "video";
@@ -83,6 +84,10 @@ export type AdminGiftPreviewWish = {
   messageText: string | null;
   videoDurationSeconds: number | null;
   displayOrder: number | null;
+};
+
+export type GiftWishStar = {
+  id: string;
 };
 
 type SupabaseAdminConfig = {
@@ -403,6 +408,43 @@ export async function listAdminApprovedWishesForPreview(): Promise<
   }
 
   return rows.map(toAdminGiftPreviewWish);
+}
+
+export async function listGiftApprovedWishStars(): Promise<GiftWishStar[]> {
+  if (!(await hasValidGiftSession())) {
+    throw new Error("Unauthorized gift data access.");
+  }
+
+  const config = getSupabaseAdminConfig();
+  const query = new URLSearchParams({
+    status: "eq.approved",
+    select: "id",
+    order: "display_order.asc.nullslast,created_at.asc",
+    limit: "200",
+  });
+  const response = await fetch(
+    `${config.baseUrl}/rest/v1/wishes?${query.toString()}`,
+    {
+      headers: adminHeaders(config.secretKey),
+      cache: "no-store",
+    },
+  );
+
+  await ensureSuccessful(response, "Gift wish star list");
+
+  const rows: unknown = await response.json();
+
+  if (!Array.isArray(rows)) {
+    throw new Error("Gift wish star list returned an invalid response.");
+  }
+
+  return rows.map((row) => {
+    if (!isRecord(row) || typeof row.id !== "string" || !UUID_PATTERN.test(row.id)) {
+      throw new Error("Gift wish star list contained invalid field values.");
+    }
+
+    return { id: row.id };
+  });
 }
 
 function toAdminGiftPreviewWish(row: unknown): AdminGiftPreviewWish {

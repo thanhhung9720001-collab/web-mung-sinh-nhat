@@ -2,6 +2,10 @@ import type { Metadata } from "next";
 import { connection } from "next/server";
 import { hasValidGiftSession } from "@/lib/gift-session.server";
 import {
+  listGiftApprovedWishStars,
+  type GiftWishStar,
+} from "@/lib/supabase-admin.server";
+import {
   formatAppDateTime,
   getAppSchedule,
   getCurrentScheduleState,
@@ -9,6 +13,7 @@ import {
 import { logoutGift } from "./actions";
 import { GiftCountdown } from "./gift-countdown";
 import { GiftLoginForm } from "./login-form";
+import { GiftStarSky } from "./gift-star-sky";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
@@ -74,19 +79,43 @@ export default async function GiftPage() {
     );
   }
 
+  let stars: GiftWishStar[] = [];
+  let hasSkyError = false;
+
+  try {
+    stars = await listGiftApprovedWishStars();
+  } catch {
+    hasSkyError = true;
+  }
+
   return (
-    <main className={`${styles.page} ${styles.nightPage}`}>
+    <main className={`${styles.page} ${styles.nightPage} ${styles.skyPage}`}>
       <div className={styles.paperGrain} aria-hidden="true" />
-      <section className={`${styles.card} ${styles.nightCard}`}>
-        <span className={styles.eyebrow}>Đúng 0 giờ rồi đó</span>
-        <div className={styles.paperTitle}>
-          <span className={styles.tape} aria-hidden="true" />
-          <h1>Chúc mừng sinh nhật Bé Heo!</h1>
-        </div>
-        <p className={styles.description}>
-          Bầu trời của mọi người dành cho em đang được chuẩn bị ở bước tiếp
-          theo.
-        </p>
+      <div className={styles.skyConstellations} aria-hidden="true" />
+      <section className={styles.skyShell} aria-labelledby="gift-sky-title">
+        <header className={styles.skyHeader}>
+          <span className={styles.eyebrow}>Đúng 0 giờ rồi đó</span>
+          <div className={styles.paperTitle}>
+            <span className={styles.tape} aria-hidden="true" />
+            <h1 id="gift-sky-title">Chúc mừng sinh nhật Bé Heo!</h1>
+          </div>
+          <p className={styles.description}>
+            Mỗi ngôi sao dưới đây là một điều mà ai đó đã lén để dành cho em.
+          </p>
+          {!hasSkyError ? (
+            <p className={styles.starCount}>{stars.length} ngôi sao đang sáng</p>
+          ) : null}
+        </header>
+
+        {hasSkyError ? (
+          <div className={styles.skyError} role="alert">
+            <span aria-hidden="true">☁</span>
+            <p>Mây vừa che mất bầu trời. Em tải lại trang sau một chút nha.</p>
+          </div>
+        ) : (
+          <GiftStarSky stars={stars} />
+        )}
+
         <form className={styles.logoutForm} action={logoutGift}>
           <button type="submit">Thoát ra ngoài</button>
         </form>

@@ -288,9 +288,146 @@
 
 .openingTime { line-height: var(--leading-normal); }
 
+.skyPage {
+  display: block;
+  overflow-y: auto;
+  padding-top: clamp(2.5rem, 8vw, 5rem);
+  padding-bottom: clamp(2rem, 7vw, 4rem);
+}
+
+.skyShell {
+  position: relative;
+  display: flex;
+  width: min(100%, 70rem);
+  min-height: calc(100svh - 6rem);
+  margin-inline: auto;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(2rem, 6vw, 4rem);
+}
+
+.skyHeader {
+  display: flex;
+  width: min(100%, 42rem);
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-5);
+  text-align: center;
+}
+
+.starCount {
+  padding: 0.4rem 0.85rem;
+  border: 1px dashed rgb(230 201 141 / 48%);
+  border-radius: 999px;
+  color: var(--gift-gold);
+  font-size: var(--text-sm);
+  letter-spacing: 0.04em;
+  transform: rotate(-1deg);
+}
+
+.starField {
+  display: grid;
+  width: 100%;
+  min-height: 24rem;
+  margin: 0;
+  padding: clamp(2rem, 7vw, 5rem) clamp(0.5rem, 4vw, 2rem);
+  grid-template-columns: repeat(auto-fit, minmax(4.75rem, 1fr));
+  align-content: center;
+  gap: clamp(1.25rem, 5vw, 3rem) clamp(0.75rem, 3vw, 2rem);
+  list-style: none;
+}
+
+.starSlot {
+  display: grid;
+  min-height: 4.75rem;
+  place-items: center;
+  transform: translate(var(--star-shift-x), var(--star-shift-y));
+}
+
+.wishStar {
+  display: inline-grid;
+  width: 3.25rem;
+  height: 3.25rem;
+  place-items: center;
+  color: var(--gift-gold);
+  filter: drop-shadow(0 0 0.45rem rgb(230 201 141 / 38%));
+  font-family: Georgia, serif;
+  font-size: clamp(1.55rem, 5vw, 2.2rem);
+  line-height: 1;
+  transform: rotate(var(--star-rotation)) scale(var(--star-scale));
+  animation: starBreathing 4.8s ease-in-out var(--star-delay) infinite;
+}
+
+.starSlot:nth-child(3n + 1) .wishStar {
+  color: #f2d9a8;
+}
+
+.starSlot:nth-child(4n + 2) .wishStar {
+  color: #f4e8d2;
+}
+
+.skyConstellations {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.48;
+  background-image:
+    radial-gradient(circle at 9% 20%, rgb(248 240 223 / 70%) 0 1px, transparent 2px),
+    radial-gradient(circle at 79% 14%, rgb(230 201 141 / 72%) 0 1px, transparent 2px),
+    radial-gradient(circle at 91% 62%, rgb(248 240 223 / 60%) 0 1px, transparent 2px),
+    radial-gradient(circle at 18% 79%, rgb(230 201 141 / 62%) 0 1px, transparent 2px);
+  background-size: 9rem 11rem, 13rem 15rem, 11rem 13rem, 15rem 17rem;
+  pointer-events: none;
+}
+
+.emptySky,
+.skyError {
+  display: grid;
+  width: min(100%, 30rem);
+  min-height: 18rem;
+  padding: var(--space-8);
+  place-content: center;
+  gap: var(--space-4);
+  border: 1px dashed rgb(230 201 141 / 38%);
+  text-align: center;
+}
+
+.emptySky span,
+.skyError span {
+  color: var(--gift-gold);
+  font-family: Georgia, serif;
+  font-size: 3rem;
+}
+
+.emptySky p,
+.skyError p {
+  max-width: 30ch;
+  color: rgb(248 240 223 / 76%);
+  line-height: 1.7;
+}
+
+.skyShell > .logoutForm {
+  width: min(100%, 18rem);
+  margin-top: auto;
+}
+
+@keyframes starBreathing {
+  0%,
+  100% {
+    opacity: 0.62;
+    transform: rotate(var(--star-rotation)) scale(var(--star-scale));
+  }
+
+  50% {
+    opacity: 1;
+    transform: rotate(var(--star-rotation)) scale(calc(var(--star-scale) + 0.12));
+  }
+}
+
 @media (min-width: 40rem) {
   .card { padding: var(--space-12) var(--space-10) var(--space-10); }
   .countdown { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .starField { grid-template-columns: repeat(auto-fit, minmax(6rem, 1fr)); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -298,4 +435,6 @@
   .paperTitle,
   .loginForm button,
   .countdownUnit { transform: none; }
+
+  .wishStar { animation: none; }
 }
