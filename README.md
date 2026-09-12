@@ -9,7 +9,8 @@ trước khi trở thành những ngôi sao trong trải nghiệm mở quà.
 - Giai đoạn 1 — Chốt yêu cầu và phạm vi: hoàn thành.
 - Giai đoạn 2 — Dựng nền tảng kỹ thuật: hoàn thành.
 - Giai đoạn 3 — Luồng gửi lời chúc: hoàn thành.
-- Giai đoạn 4–7: chưa triển khai.
+- Giai đoạn 4 — Quản trị và kiểm duyệt: hoàn thành.
+- Giai đoạn 5–7: chưa triển khai.
 
 Chi tiết và tiêu chí nghiệm thu nằm trong `IMPLEMENTATION_PLAN.md`.
 
@@ -40,6 +41,24 @@ nhận đồng ý sử dụng nội dung.
 - Form tự đóng và Server Action từ chối request kể từ `23:59 15/09/2026`
   theo `Asia/Ho_Chi_Minh`.
 
+## Quản trị và kiểm duyệt
+
+Trang `/admin` sử dụng mật khẩu băm `scrypt` và phiên ký HMAC-SHA256. Cookie
+quản trị là `HttpOnly`, `SameSite=Lax`, bật `Secure` trên production và hết hạn
+mặc định sau 8 giờ.
+
+- Lọc lời chúc theo `pending`, `approved` và `rejected`.
+- Xem toàn bộ nội dung văn bản, avatar hoặc video trước khi xử lý.
+- Duyệt, từ chối và xóa với hộp xác nhận; thao tác xóa dọn cả media liên quan.
+- Nhập vị trí hiển thị cho lời chúc đã duyệt; vị trí nhỏ hơn xuất hiện trước.
+- Media quản trị được mở bằng signed URL sống mặc định 5 phút, tối đa 15 phút.
+- `/admin/preview` chỉ hiển thị lời chúc đã duyệt theo đúng thứ tự để kiểm tra
+  món quà trước giờ mở.
+
+Mọi truy vấn và Server Action quản trị đều xác thực lại phiên ở phía máy chủ.
+Người không có phiên không thể xem dữ liệu, tạo signed URL hoặc thực hiện thao
+tác kiểm duyệt.
+
 ## Chạy cục bộ
 
 Yêu cầu Node.js tương thích Next.js 16 và pnpm 11.
@@ -54,6 +73,8 @@ Sau khi điền biến môi trường, mở:
 
 ```text
 http://localhost:3000/contribute/<CONTRIBUTION_LINK_SECRET>
+http://localhost:3000/admin
+http://localhost:3000/admin/preview
 ```
 
 Không commit `.env.local` hoặc bất kỳ secret thật nào.
@@ -64,9 +85,10 @@ Sao chép `.env.example` để xem toàn bộ giá trị mẫu. Các nhóm chín
 
 - Lịch: `APP_TIME_ZONE`, `CONTRIBUTIONS_CLOSE_AT`, `GIFT_OPENS_AT`.
 - Supabase server-only: `SUPABASE_URL`, `SUPABASE_SECRET_KEY`.
-- Truy cập riêng: `CONTRIBUTION_LINK_SECRET`; các hash mật khẩu và session
-  secret sẽ được dùng trong giai đoạn xác thực.
+- Truy cập riêng: `CONTRIBUTION_LINK_SECRET`, `ADMIN_PASSWORD_HASH`,
+  `SESSION_SECRET` và `ADMIN_SESSION_TTL_SECONDS`.
 - Media: tên bucket và giới hạn avatar/video.
+- Signed URL: `SIGNED_URL_TTL_SECONDS`.
 - Chống spam: `CONTRIBUTION_RATE_LIMIT_MAX` và
   `CONTRIBUTION_RATE_LIMIT_WINDOW_SECONDS`.
 
@@ -93,7 +115,11 @@ Luôn dry-run và review migration trước khi push.
 ```bash
 pnpm lint
 pnpm build
+pnpm audit:client-secrets
 ```
+
+Lệnh audit phải chạy sau build và sẽ thất bại nếu tên biến hoặc giá trị secret
+được phát hiện trong `.next/static`.
 
 Các phép kiểm tra mốc đóng form dùng timestamp tuyệt đối có UTC offset. Không
 so sánh thời gian bằng chuỗi đã định dạng.
@@ -105,6 +131,7 @@ so sánh thời gian bằng chuỗi đã định dạng.
   trình duyệt hoặc ghi vào Git.
 - File được kiểm tra lại phía máy chủ, bao gồm MIME, chữ ký định dạng, dung
   lượng và thời lượng video.
-- Nội dung `pending` chưa được phép xuất hiện trong món quà.
-- Signed URL cho media sẽ chỉ được tạo sau khi xác minh phiên trong các giai
-  đoạn quản trị và trang quà.
+- Chế độ xem thử chỉ đọc nội dung `approved`; `pending` và `rejected` không xuất
+  hiện.
+- Signed URL cho media quản trị chỉ được tạo sau khi xác minh lại phiên và có
+  thời gian sống ngắn.

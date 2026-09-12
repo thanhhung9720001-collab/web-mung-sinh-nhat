@@ -72,15 +72,16 @@ Một giai đoạn chỉ được coi là hoàn thành khi đạt tiêu chí ngh
 
 **Thời gian:** 10–11/09/2026  
 **Phụ thuộc:** Giai đoạn 2, dữ liệu mẫu từ giai đoạn 3
+**Trạng thái:** Hoàn thành
 
-- [ ] Xây đăng nhập `/admin` và cookie phiên an toàn.
-- [ ] Không để khóa quản trị hoặc mật khẩu xuất hiện trong mã trình duyệt.
-- [ ] Hiển thị danh sách và lọc theo trạng thái.
-- [ ] Tạo URL ký có thời hạn để xem media trong phiên quản trị.
-- [ ] Xem trước đầy đủ nội dung trước khi duyệt.
-- [ ] Thực hiện duyệt, từ chối và xóa có xác nhận.
-- [ ] Thực hiện sắp xếp thứ tự hiển thị.
-- [ ] Thêm chế độ xem thử món quà trước giờ mở.
+- [x] Xây đăng nhập `/admin` và cookie phiên an toàn.
+- [x] Không để khóa quản trị hoặc mật khẩu xuất hiện trong mã trình duyệt.
+- [x] Hiển thị danh sách và lọc theo trạng thái.
+- [x] Tạo URL ký có thời hạn để xem media trong phiên quản trị.
+- [x] Xem trước đầy đủ nội dung trước khi duyệt.
+- [x] Thực hiện duyệt, từ chối và xóa có xác nhận.
+- [x] Thực hiện sắp xếp thứ tự hiển thị.
+- [x] Thêm chế độ xem thử món quà trước giờ mở.
 
 **Mốc kiểm soát bắt buộc:** Hoàn thành một vòng gửi → chờ duyệt → duyệt → xuất hiện trong dữ liệu trang quà trước khi tập trung vào hiệu ứng.
 
@@ -193,3 +194,11 @@ Một giai đoạn chỉ được coi là hoàn thành khi đạt tiêu chí ngh
 | 12/09/2026 | Dùng UUID ổn định của từng lượt soạn làm ID lời chúc và kiểm tra bản ghi trước khi gửi lại | Giữ nguyên nội dung khi lỗi mạng và ngăn tạo bản ghi trùng nếu phản hồi thành công trước đó bị thất lạc |
 | 11/09/2026 | Giới hạn mỗi địa chỉ mạng ở 5 lần gửi trong 15 phút bằng bộ đếm nguyên tử trên Supabase; chỉ lưu HMAC của địa chỉ | Hoạt động nhất quán giữa các serverless instance, giảm spam và không lưu IP thô |
 | 12/09/2026 | Kiểm tra hạn nhận lời chúc ở cả Server Component, trình duyệt và Server Action | Giao diện tự đóng đúng giờ và request trực tiếp không thể vượt qua mốc 23:59 ngày 15/09/2026 |
+| 12/09/2026 | Xác thực quản trị bằng mật khẩu băm scrypt và phiên không trạng thái ký HMAC-SHA256, lưu trong cookie `HttpOnly`, `SameSite=Lax`, `Secure` trên production và hết hạn mặc định sau 8 giờ | Không lưu mật khẩu thật hoặc trạng thái phiên phía trình duyệt; token giả mạo, quá hạn hoặc có thời gian bất hợp lệ đều bị từ chối |
+| 12/09/2026 | Giữ toàn bộ bí mật xác thực trong module `server-only` và quét `.next/static` bằng lệnh `pnpm audit:client-secrets` sau khi build | Chặn lỗi hồi quy làm tên biến hoặc giá trị khóa quản trị xuất hiện trong bundle gửi xuống trình duyệt |
+| 12/09/2026 | Tải tối đa 200 lời chúc gần nhất qua DAL phía máy chủ, xác thực lại phiên quản trị và lọc bằng query `status` đã kiểm tra | Giữ khóa Supabase ngoài trình duyệt, tránh tin dữ liệu URL và cung cấp danh sách quản trị dễ theo dõi trên điện thoại |
+| 12/09/2026 | Chỉ tạo signed URL cho avatar/video sau khi xác thực lại phiên quản trị; mặc định sống 5 phút, giới hạn tối đa 15 phút và chuyển hướng qua route `no-store` | Media vẫn ở bucket riêng tư, object path không xuất hiện trong danh sách và liên kết bị giới hạn thời gian sử dụng |
+| 12/09/2026 | Mỗi lời chúc có trang chi tiết quản trị riêng, chỉ trả DTO tối thiểu và tải avatar/video qua route signed URL | Quản trị viên xem được toàn bộ nội dung cùng metadata trước khi ra quyết định mà không đưa object path riêng tư vào HTML |
+| 12/09/2026 | Duyệt, từ chối và xóa bằng Server Action xác thực lại phiên; mọi thao tác đều có hộp xác nhận và xóa bản ghi trước khi dọn media bằng cơ chế best-effort | Ngăn request trái phép, giảm thao tác nhầm và tránh để bản ghi trỏ đến media đã bị xóa nếu Storage gặp lỗi |
+| 12/09/2026 | Nhập vị trí hiển thị dạng 1-based trong giao diện, lưu 0-based trong dữ liệu và chỉ cho phép cập nhật lời chúc đã duyệt | Dễ thao tác trên điện thoại, đúng schema hiện tại và giữ các mục chưa xếp ở cuối danh sách đã duyệt |
+| 12/09/2026 | Dùng `/admin/preview` làm chế độ xem thử riêng, chỉ tải lời chúc `approved` theo thứ tự và vẫn yêu cầu phiên quản trị | Cho phép kiểm tra nội dung trước giờ mở mà không mở quyền truy cập trang quà cho người nhận |

@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "audit:client-secrets": "node scripts/audit-client-secrets.mjs",
     "start": "next start",
     "lint": "eslint"
   },
