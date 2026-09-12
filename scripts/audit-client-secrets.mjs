@@ -7,6 +7,7 @@ const SECRET_ENVIRONMENT_VARIABLES = [
   "GIFT_PASSWORD_HASH",
   "SESSION_SECRET",
   "SUPABASE_SECRET_KEY",
+  "WISH_EDIT_SECRET",
 ];
 const SCANNED_EXTENSIONS = new Set([".js", ".json", ".map", ".txt"]);
 

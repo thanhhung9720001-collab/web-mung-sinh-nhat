@@ -1,6 +1,7 @@
 import "server-only";
 
 import { hasValidAdminSession } from "@/lib/admin-session.server";
+import { verifyWishEditToken } from "@/lib/wish-edit-token.server";
 
 type WishContentType = "text" | "video";
 export type WishStatus = "pending" | "approved" | "rejected";
@@ -30,6 +31,29 @@ export type WishInsert = {
   video_size_bytes: number | null;
   video_duration_seconds: number | null;
   status: "pending";
+};
+
+export type EditableWishRecord = {
+  id: string;
+  senderName: string;
+  avatarPath: string | null;
+  contentType: WishContentType;
+  messageText: string | null;
+  videoPath: string | null;
+  videoMimeType: string | null;
+  videoSizeBytes: number | null;
+  videoDurationSeconds: number | null;
+};
+
+export type WishEditUpdate = {
+  sender_name: string;
+  avatar_path: string | null;
+  content_type: WishContentType;
+  message_text: string | null;
+  video_path: string | null;
+  video_mime_type: string | null;
+  video_size_bytes: number | null;
+  video_duration_seconds: number | null;
 };
 
 export type AdminWishSummary = {
@@ -202,6 +226,108 @@ export async function wishExists(wishId: string): Promise<boolean> {
 
   const rows: unknown = await response.json();
   return Array.isArray(rows) && rows.length > 0;
+}
+
+export async function getEditableWishByToken(
+  editToken: string,
+): Promise<EditableWishRecord | null> {
+  const wishId = verifyWishEditToken(editToken);
+
+  if (!wishId) {
+    return null;
+  }
+
+  const config = getSupabaseAdminConfig();
+  const query = new URLSearchParams({
+    id: `eq.${wishId}`,
+    select:
+      "id,sender_name,avatar_path,content_type,message_text,video_path,video_mime_type,video_size_bytes,video_duration_seconds",
+    limit: "1",
+  });
+  const response = await fetch(
+    `${config.baseUrl}/rest/v1/wishes?${query.toString()}`,
+    {
+      headers: adminHeaders(config.secretKey),
+      cache: "no-store",
+    },
+  );
+
+  await ensureSuccessful(response, "Contributor wish edit lookup");
+
+  const rows: unknown = await response.json();
+
+  if (!Array.isArray(rows) || rows.length !== 1 || !isRecord(rows[0])) {
+    return null;
+  }
+
+  const row = rows[0];
+  const contentType = row.content_type;
+
+  if (
+    typeof row.id !== "string" ||
+    typeof row.sender_name !== "string" ||
+    (contentType !== "text" && contentType !== "video")
+  ) {
+    throw new Error("Contributor wish edit lookup returned invalid data.");
+  }
+
+  return {
+    id: row.id,
+    senderName: row.sender_name,
+    avatarPath: typeof row.avatar_path === "string" ? row.avatar_path : null,
+    contentType,
+    messageText: typeof row.message_text === "string" ? row.message_text : null,
+    videoPath: typeof row.video_path === "string" ? row.video_path : null,
+    videoMimeType:
+      typeof row.video_mime_type === "string" ? row.video_mime_type : null,
+    videoSizeBytes:
+      typeof row.video_size_bytes === "number" ? row.video_size_bytes : null,
+    videoDurationSeconds:
+      typeof row.video_duration_seconds === "number"
+        ? row.video_duration_seconds
+        : null,
+  };
+}
+
+export async function updateEditableWishByToken(
+  editToken: string,
+  update: WishEditUpdate,
+): Promise<boolean> {
+  const wishId = verifyWishEditToken(editToken);
+
+  if (!wishId) {
+    return false;
+  }
+
+  const config = getSupabaseAdminConfig();
+  const query = new URLSearchParams({
+    id: `eq.${wishId}`,
+    select: "id",
+  });
+  const response = await fetch(
+    `${config.baseUrl}/rest/v1/wishes?${query.toString()}`,
+    {
+      method: "PATCH",
+      headers: {
+        ...adminHeaders(config.secretKey),
+        "Content-Type": "application/json",
+        Prefer: "return=representation",
+      },
+      body: JSON.stringify({
+        ...update,
+        status: "pending",
+        reviewed_at: null,
+        display_order: null,
+        consent_given_at: new Date().toISOString(),
+      }),
+      cache: "no-store",
+    },
+  );
+
+  await ensureSuccessful(response, "Contributor wish update");
+
+  const rows: unknown = await response.json();
+  return Array.isArray(rows) && rows.length === 1;
 }
 
 export async function listAdminWishes(

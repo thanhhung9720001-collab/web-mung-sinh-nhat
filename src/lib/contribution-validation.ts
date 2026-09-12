@@ -15,6 +15,7 @@ export type ContributionFormState = {
   message: string;
   fieldErrors: ContributionFieldErrors;
   submissionId: string;
+  editUrl?: string;
 };
 
 function readText(value: FormDataEntryValue | null): string {

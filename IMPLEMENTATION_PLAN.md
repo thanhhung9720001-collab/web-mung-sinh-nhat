@@ -87,6 +87,14 @@ Một giai đoạn chỉ được coi là hoàn thành khi đạt tiêu chí ngh
 
 **Tiêu chí nghiệm thu:** Quản trị viên xử lý được toàn bộ vòng đời lời chúc; người không có phiên quản trị không truy cập được thao tác hoặc media quản trị.
 
+### Bổ sung sau Giai đoạn 4 — Người gửi tự chỉnh sửa
+
+**Trạng thái:** Hoàn thành
+
+- [x] Cấp link chỉnh sửa bí mật sau khi gửi; cho phép cập nhật trước hạn đóng, đưa nội dung về `pending` và dọn media cũ an toàn.
+
+**Tiêu chí nghiệm thu:** Người có link chỉnh sửa hợp lệ sửa được tên, avatar và nội dung trước hạn đóng; link giả hoặc hết hạn bị từ chối; nội dung đã sửa phải được duyệt lại.
+
 ### Giai đoạn 5 — Trải nghiệm mở quà
 
 **Thời gian:** 12–13/09/2026  
@@ -202,3 +210,4 @@ Một giai đoạn chỉ được coi là hoàn thành khi đạt tiêu chí ngh
 | 12/09/2026 | Duyệt, từ chối và xóa bằng Server Action xác thực lại phiên; mọi thao tác đều có hộp xác nhận và xóa bản ghi trước khi dọn media bằng cơ chế best-effort | Ngăn request trái phép, giảm thao tác nhầm và tránh để bản ghi trỏ đến media đã bị xóa nếu Storage gặp lỗi |
 | 12/09/2026 | Nhập vị trí hiển thị dạng 1-based trong giao diện, lưu 0-based trong dữ liệu và chỉ cho phép cập nhật lời chúc đã duyệt | Dễ thao tác trên điện thoại, đúng schema hiện tại và giữ các mục chưa xếp ở cuối danh sách đã duyệt |
 | 12/09/2026 | Dùng `/admin/preview` làm chế độ xem thử riêng, chỉ tải lời chúc `approved` theo thứ tự và vẫn yêu cầu phiên quản trị | Cho phép kiểm tra nội dung trước giờ mở mà không mở quyền truy cập trang quà cho người nhận |
+| 12/09/2026 | Bổ sung link chỉnh sửa bí mật ký HMAC cho từng lời chúc, chỉ có hiệu lực đến lúc đóng cổng | Cho người gửi tự sửa mà không cần tài khoản và không công khai ID hoặc quyền truy cập lời chúc khác |

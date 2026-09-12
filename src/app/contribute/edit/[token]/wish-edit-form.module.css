@@ -1,0 +1,119 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  padding: var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.field {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: 0;
+  border: 0;
+}
+
+.field label,
+.field legend {
+  color: var(--color-text-heading);
+  font-weight: var(--font-semibold);
+}
+
+.field input[type="text"],
+.field input:not([type]),
+.field textarea,
+.field input[type="file"] {
+  width: 100%;
+}
+
+.field input:not([type]),
+.field textarea {
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text-primary);
+  background: rgb(9 15 37 / 62%);
+  font: inherit;
+}
+
+.field textarea {
+  resize: vertical;
+}
+
+.choices {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+.choices label,
+.checkRow,
+.consent {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  line-height: var(--leading-normal);
+}
+
+.choices label {
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.help,
+.status {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+}
+
+.error {
+  color: var(--color-danger);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+}
+
+.submitArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  text-align: center;
+}
+
+.submitArea button {
+  width: 100%;
+  padding: var(--space-3) var(--space-6);
+  border: 0;
+  border-radius: var(--radius-full);
+  color: var(--color-on-accent);
+  background: var(--color-accent);
+  font-weight: var(--font-bold);
+}
+
+.submitArea button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.hiddenField {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (min-width: 40rem) {
+  .form {
+    padding: var(--space-10);
+  }
+}

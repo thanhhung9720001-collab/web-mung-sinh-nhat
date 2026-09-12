@@ -30,6 +30,7 @@ import {
   getCurrentScheduleState,
 } from "@/lib/time";
 import { validateVideoFile } from "@/lib/video-validation.server";
+import { createWishEditPath } from "@/lib/wish-edit-token.server";
 
 const AVATAR_EXTENSIONS = {
   "image/jpeg": "jpg",
@@ -64,8 +65,9 @@ function result(
   message: string,
   submissionId: string,
   fieldErrors: ContributionFormState["fieldErrors"] = {},
+  editUrl?: string,
 ): ContributionFormState {
-  return { status, message, submissionId, fieldErrors };
+  return { status, message, submissionId, fieldErrors, editUrl };
 }
 
 async function cleanupUploadedObjects(
@@ -130,6 +132,8 @@ export async function submitContribution(
         "success",
         "Lời chúc đã được gửi trước đó và đang chờ duyệt. Cảm ơn bạn!",
         randomUUID(),
+        {},
+        createWishEditPath(submissionId),
       );
     }
 
@@ -196,6 +200,7 @@ export async function submitContribution(
   }
 
   const wishId = submissionId;
+  const editUrl = createWishEditPath(wishId);
   const avatarBucket = process.env.AVATAR_BUCKET || "wish-avatars";
   const videoBucket = process.env.VIDEO_BUCKET || "wish-videos";
   const avatarPath =
@@ -253,6 +258,8 @@ export async function submitContribution(
       "success",
       "Lời chúc đã được gửi và đang chờ duyệt. Cảm ơn bạn!",
       randomUUID(),
+      {},
+      editUrl,
     );
   } catch (error) {
     let existenceCheckFailed = false;
@@ -263,6 +270,8 @@ export async function submitContribution(
           "success",
           "Lời chúc đã được gửi trước đó và đang chờ duyệt. Cảm ơn bạn!",
           randomUUID(),
+          {},
+          createWishEditPath(submissionId),
         );
       }
     } catch {

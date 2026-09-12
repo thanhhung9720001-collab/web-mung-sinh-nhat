@@ -550,6 +550,13 @@ export function ContributionForm({
             : formState.message ||
               "Lời chúc sẽ được giữ riêng tư và chờ duyệt."}
         </p>
+        {formState.status === "success" && formState.editUrl ? (
+          <div className={styles.editLinkNotice}>
+            <strong>Giữ lại link này nếu bạn muốn sửa lời chúc:</strong>
+            <a href={formState.editUrl}>Mở trang chỉnh sửa bí mật</a>
+            <small>Link chỉ có hiệu lực đến lúc cổng nhận lời chúc đóng.</small>
+          </div>
+        ) : null}
       </div>
     </form>
   );

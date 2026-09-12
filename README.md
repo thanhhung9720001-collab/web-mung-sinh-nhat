@@ -10,6 +10,7 @@ trước khi trở thành những ngôi sao trong trải nghiệm mở quà.
 - Giai đoạn 2 — Dựng nền tảng kỹ thuật: hoàn thành.
 - Giai đoạn 3 — Luồng gửi lời chúc: hoàn thành.
 - Giai đoạn 4 — Quản trị và kiểm duyệt: hoàn thành.
+- Bổ sung sau giai đoạn 4 — Người gửi tự chỉnh sửa: hoàn thành.
 - Giai đoạn 5–7: chưa triển khai.
 
 Chi tiết và tiêu chí nghiệm thu nằm trong `IMPLEMENTATION_PLAN.md`.
@@ -38,6 +39,10 @@ nhận đồng ý sử dụng nội dung.
   trên mỗi HMAC của địa chỉ mạng. IP thô không được lưu.
 - UUID ổn định giúp gửi lại an toàn khi mất phản hồi mạng mà không tạo bản ghi
   trùng.
+- Sau khi gửi thành công, người gửi nhận một link chỉnh sửa bí mật ký HMAC.
+  Link cho phép thay tên, avatar hoặc nội dung đến lúc đóng form; mỗi lần sửa
+  đều đưa lời chúc về `pending` để được duyệt lại và dọn media cũ theo cơ chế
+  best-effort.
 - Form tự đóng và Server Action từ chối request kể từ `23:59 15/09/2026`
   theo `Asia/Ho_Chi_Minh`.
 
@@ -86,7 +91,7 @@ Sao chép `.env.example` để xem toàn bộ giá trị mẫu. Các nhóm chín
 - Lịch: `APP_TIME_ZONE`, `CONTRIBUTIONS_CLOSE_AT`, `GIFT_OPENS_AT`.
 - Supabase server-only: `SUPABASE_URL`, `SUPABASE_SECRET_KEY`.
 - Truy cập riêng: `CONTRIBUTION_LINK_SECRET`, `ADMIN_PASSWORD_HASH`,
-  `SESSION_SECRET` và `ADMIN_SESSION_TTL_SECONDS`.
+  `SESSION_SECRET`, `WISH_EDIT_SECRET` và `ADMIN_SESSION_TTL_SECONDS`.
 - Media: tên bucket và giới hạn avatar/video.
 - Signed URL: `SIGNED_URL_TTL_SECONDS`.
 - Chống spam: `CONTRIBUTION_RATE_LIMIT_MAX` và
@@ -135,3 +140,6 @@ so sánh thời gian bằng chuỗi đã định dạng.
   hiện.
 - Signed URL cho media quản trị chỉ được tạo sau khi xác minh lại phiên và có
   thời gian sống ngắn.
+- Link chỉnh sửa không chứa khóa Supabase hoặc mật khẩu; chữ ký được tạo bằng
+  `WISH_EDIT_SECRET` server-only, hết hạn đúng lúc đóng form và có thể thu hồi
+  đồng loạt bằng cách xoay secret này.

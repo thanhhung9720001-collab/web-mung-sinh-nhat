@@ -245,6 +245,30 @@
   line-height: var(--leading-normal);
 }
 
+.editLinkNotice {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  padding: var(--space-4);
+  border: 1px solid rgb(134 217 189 / 36%);
+  border-radius: var(--radius-lg);
+  color: var(--color-text-primary);
+  background: rgb(134 217 189 / 10%);
+  text-align: left;
+}
+
+.editLinkNotice a {
+  color: var(--color-accent);
+  font-weight: var(--font-bold);
+}
+
+.editLinkNotice small {
+  color: var(--color-text-muted);
+  line-height: var(--leading-normal);
+}
+
 @media (min-width: 40rem) {
   .form {
     padding: var(--space-10);
