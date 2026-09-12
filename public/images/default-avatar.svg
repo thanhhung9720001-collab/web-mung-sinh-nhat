@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" role="img" aria-labelledby="title description">
+  <title id="title">Ảnh đại diện mặc định bé Heo</title>
+  <desc id="description">Chú heo màu hồng dễ thương giữa bầu trời tím có những ngôi sao nhỏ.</desc>
+  <defs>
+    <linearGradient id="sky" x1="42" y1="24" x2="278" y2="296" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4A578D"/>
+      <stop offset="1" stop-color="#1B254B"/>
+    </linearGradient>
+    <linearGradient id="face" x1="92" y1="82" x2="224" y2="244" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFE8F1"/>
+      <stop offset="1" stop-color="#F8B4CE"/>
+    </linearGradient>
+    <filter id="glow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="5"/>
+    </filter>
+  </defs>
+  <rect width="320" height="320" rx="160" fill="url(#sky)"/>
+  <circle cx="68" cy="78" r="5" fill="#FFEAA3" filter="url(#glow)"/>
+  <circle cx="256" cy="88" r="4" fill="#FFEAA3"/>
+  <circle cx="266" cy="210" r="5" fill="#F1E8FF"/>
+  <circle cx="56" cy="224" r="3" fill="#F1E8FF"/>
+  <path d="M102 105C83 84 78 64 86 56c9-8 32 3 50 26" fill="#ED8FB6" stroke="#FFD1E2" stroke-width="8" stroke-linejoin="round"/>
+  <path d="M218 105c19-21 24-41 16-49-9-8-32 3-50 26" fill="#ED8FB6" stroke="#FFD1E2" stroke-width="8" stroke-linejoin="round"/>
+  <circle cx="160" cy="160" r="94" fill="url(#face)" stroke="#FFF5F9" stroke-width="8"/>
+  <ellipse cx="126" cy="148" rx="9" ry="12" fill="#28345F"/>
+  <ellipse cx="194" cy="148" rx="9" ry="12" fill="#28345F"/>
+  <circle cx="123" cy="144" r="3" fill="#FFFDF5"/>
+  <circle cx="191" cy="144" r="3" fill="#FFFDF5"/>
+  <ellipse cx="160" cy="192" rx="48" ry="35" fill="#ED8FB6" stroke="#D96C9E" stroke-width="5"/>
+  <ellipse cx="143" cy="192" rx="6" ry="9" fill="#8E68B5"/>
+  <ellipse cx="177" cy="192" rx="6" ry="9" fill="#8E68B5"/>
+  <path d="M143 222c11 9 23 9 34 0" fill="none" stroke="#8E68B5" stroke-width="5" stroke-linecap="round"/>
+  <path d="m160 38 4 10 10 4-10 4-4 10-4-10-10-4 10-4 4-10Z" fill="#FFEAA3"/>
+  <path d="m246 146 3 7 7 3-7 3-3 7-3-7-7-3 7-3 3-7Z" fill="#FFEAA3"/>
+</svg>

@@ -1,0 +1,130 @@
+.page {
+  position: relative;
+  display: grid;
+  min-height: 100svh;
+  place-items: center;
+  overflow: hidden;
+  padding:
+    max(var(--page-gutter), var(--safe-area-top))
+    max(var(--page-gutter), var(--safe-area-right))
+    max(var(--page-gutter), var(--safe-area-bottom))
+    max(var(--page-gutter), var(--safe-area-left));
+}
+
+.glow {
+  position: absolute;
+  top: 12%;
+  left: 50%;
+  width: min(34rem, 90vw);
+  aspect-ratio: 1;
+  border-radius: var(--radius-full);
+  background: var(--gradient-glow);
+  filter: blur(2rem);
+  opacity: 0.72;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  width: min(100%, var(--content-narrow));
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-5);
+  padding: var(--space-8) var(--space-5);
+  border: var(--border-subtle);
+  border-radius: var(--radius-2xl);
+  background: var(--color-surface-glass);
+  box-shadow: var(--shadow-card);
+  text-align: center;
+  backdrop-filter: blur(1rem);
+}
+
+.eyebrow {
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+.star {
+  display: grid;
+  width: var(--space-12);
+  aspect-ratio: 1;
+  place-items: center;
+  border-radius: var(--radius-full);
+  color: var(--color-star);
+  background: var(--color-star-soft);
+  box-shadow: var(--shadow-star);
+  font-size: var(--text-2xl);
+  animation: twinkle var(--duration-slow) var(--ease-in-out) infinite alternate;
+}
+
+.card h1 {
+  max-width: 12ch;
+  color: var(--color-text-heading);
+  font-size: var(--text-display);
+  font-weight: var(--font-bold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  text-wrap: balance;
+}
+
+.card p {
+  max-width: 34ch;
+  color: var(--color-text-secondary);
+  font-size: var(--text-lg);
+  line-height: var(--leading-relaxed);
+  text-wrap: balance;
+}
+
+.swatches {
+  display: flex;
+  gap: var(--space-3);
+  padding-top: var(--space-2);
+}
+
+.swatches span {
+  width: var(--space-8);
+  aspect-ratio: 1;
+  border: 2px solid var(--color-border-strong);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-sm);
+}
+
+.pink {
+  background: var(--color-pink-300);
+}
+
+.violet {
+  background: var(--color-violet-300);
+}
+
+.night {
+  background: var(--color-night-700);
+}
+
+.cream {
+  background: var(--color-cream-200);
+}
+
+@keyframes twinkle {
+  from {
+    opacity: 0.72;
+    transform: scale(0.94) rotate(-4deg);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1.06) rotate(4deg);
+  }
+}
+
+@media (min-width: 40rem) {
+  .card {
+    gap: var(--space-6);
+    padding: var(--space-12) var(--space-10);
+  }
+}
