@@ -13,6 +13,16 @@ Hoàn thành website quà sinh nhật trước ngày 17/09/2026 theo phạm vi t
 
 Một giai đoạn chỉ được coi là hoàn thành khi đạt tiêu chí nghiệm thu của giai đoạn đó.
 
+## 2.1. Định hướng giao diện đã duyệt
+
+- Chủ đề: sổ lưu niệm sinh nhật thủ công dưới bầu trời đêm.
+- Bảng màu: hồng pastel bụi, giấy kem ấm, xanh navy lì, mực đỏ rượu vang và điểm vàng ấm.
+- Ảnh thật của bé Heo được trình bày như ảnh rửa dán bằng băng keo giấy; không làm lại hoặc thay đổi nhận diện khuôn mặt.
+- Sao, đường chòm sao và nét trang trí có độ lệch tự nhiên như vẽ tay; bố cục vẫn rõ ràng và dễ chạm trên điện thoại.
+- Tiêu đề dùng serif có cảm xúc, nội dung và điều khiển dùng sans-serif dễ đọc; chữ viết tay chỉ dùng tiết chế làm ghi chú.
+- Tránh gradient tím-xanh, glassmorphism, glow neon, bố cục đối xứng quá hoàn hảo, trang trí emoji dày và câu chữ chung chung kiểu mẫu AI.
+- Mạch cảm xúc: tò mò → vui vẻ → đọc lời chúc → xúc động → bất ngờ ở phần kết.
+
 ## 3. Kế hoạch theo giai đoạn
 
 ### Giai đoạn 1 — Chốt yêu cầu và phạm vi
@@ -214,3 +224,4 @@ Một giai đoạn chỉ được coi là hoàn thành khi đạt tiêu chí ngh
 | 12/09/2026 | Bổ sung link chỉnh sửa bí mật ký HMAC cho từng lời chúc, chỉ có hiệu lực đến lúc đóng cổng | Cho người gửi tự sửa mà không cần tài khoản và không công khai ID hoặc quyền truy cập lời chúc khác |
 | 12/09/2026 | Tách đăng nhập `/gift` bằng mật khẩu băm scrypt, khóa ký và cookie phiên riêng giới hạn trong đường dẫn `/gift` | Phiên người nhận không thể dùng thay phiên quản trị; mật khẩu thật và khóa ký không đi vào mã nguồn hoặc trình duyệt |
 | 12/09/2026 | Render mốc mở quà từ server và chạy đồng hồ đếm ngược phía trình duyệt bằng timestamp tuyệt đối, tự refresh khi về 0 | Tránh lệch hydration, giữ đúng múi giờ Việt Nam và chuyển trạng thái mà không cần người nhận tải lại trang |
+| 12/09/2026 | Chốt hướng “sổ lưu niệm thủ công dưới bầu trời đêm” với ảnh thật, hồng pastel và giấy kem | Tạo cảm giác gần gũi do con người làm, tránh thẩm mỹ glassmorphism/gradient phổ biến của giao diện sinh tự động |
