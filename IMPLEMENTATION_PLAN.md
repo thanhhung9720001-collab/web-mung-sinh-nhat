@@ -243,3 +243,4 @@ Một giai đoạn chỉ được coi là hoàn thành khi đạt tiêu chí ngh
 | 13/09/2026 | Tách các quy tắc lịch, phiên, mật khẩu, signed URL, media và tiến độ thành hàm thuần với bộ kiểm thử Node | Có thể kiểm tra các trường hợp biên lặp lại mà không cần dùng secret hoặc thay đổi dữ liệu production |
 | 13/09/2026 | Luôn tính lại quyền mở phần kết từ các lời chúc `approved` hiện tại thay vì tin cờ cũ trong `localStorage` | Ngăn phần kết mở sớm nếu quản trị viên duyệt thêm lời chúc sau lần xem trước |
 | 13/09/2026 | Chuẩn hóa avatar mới thành WebP tối đa 1024×1024 trước khi upload private | Giảm dung lượng tải trên điện thoại và loại bỏ ảnh gốc quá lớn khỏi luồng hiển thị |
+| 13/09/2026 | Chuyển tên miền gốc `/` thẳng vào `/gift` và xóa trang placeholder nền tảng | Người nhận mở đúng luồng món quà trên điện thoại, không gặp giao diện thử nghiệm cũ |

@@ -72,6 +72,9 @@ tác kiểm duyệt.
 Trang `/gift` có mật khẩu và cookie phiên riêng, chỉ mở đúng thời điểm cấu hình
 theo `Asia/Ho_Chi_Minh`. Sau khi mở:
 
+- Tên miền gốc `/` tự chuyển vào `/gift`, vì vậy người nhận không cần nhớ thêm
+  đường dẫn và không còn thấy trang placeholder kỹ thuật cũ.
+
 - Mỗi lời chúc `approved` trở thành một ngôi sao; `pending` và `rejected` không
   được tải vào trải nghiệm.
 - Chạm một ngôi sao để xem nội dung, sau đó chủ động tiết lộ tên và avatar của
