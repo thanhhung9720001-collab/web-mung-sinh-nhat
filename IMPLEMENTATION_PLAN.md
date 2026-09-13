@@ -155,12 +155,12 @@ Một giai đoạn chỉ được coi là hoàn thành khi đạt tiêu chí ngh
 
 **Thời gian:** 15–17/09/2026  
 **Phụ thuộc:** Giai đoạn 6
-**Trạng thái:** Đang thực hiện (3/11 mục)
+**Trạng thái:** Đang thực hiện (4/11 mục)
 
 - [x] Tạo và lưu an toàn mật khẩu trang quà cùng mật khẩu quản trị; các password hash và khóa ký phiên đều là Vercel Secret riêng cho Production, Preview và Development.
 - [x] Xác nhận dùng tên miền phụ Vercel `ngan-ha-cua-be-heo.vercel.app` cho bản ra mắt đầu tiên; HTTPS và chuyển hướng `/` → `/gift` hoạt động.
 - [x] Cấu hình và xác nhận khóa nhận lời chúc lúc 23:59 ngày 15/09/2026 theo `Asia/Ho_Chi_Minh`; giao diện, trang sửa và Server Action đều từ chối sau mốc.
-- [ ] Duyệt và sắp xếp nội dung lần cuối.
+- [x] Duyệt và sắp xếp nội dung lần cuối; các mục không có vị trí ưu tiên được tự động xếp theo thời gian gửi.
 - [ ] Thay video, lá thư, nhạc và ảnh mặc định bằng nội dung chính thức.
 - [ ] Xuất danh sách lời chúc và tải bản sao toàn bộ media.
 - [ ] Diễn tập từ thiết bị chưa đăng nhập vào ngày 16/09.
@@ -250,3 +250,5 @@ Một giai đoạn chỉ được coi là hoàn thành khi đạt tiêu chí ngh
 | 13/09/2026 | Xác nhận `ADMIN_PASSWORD_HASH`, `GIFT_PASSWORD_HASH` và hai khóa ký phiên đều được lưu dạng Vercel Secret ở cả ba môi trường | Không lưu mật khẩu thật trong Git, đồng thời giữ phiên quản trị và phiên mở quà tách biệt |
 | 13/09/2026 | Dùng `ngan-ha-cua-be-heo.vercel.app` làm tên miền ra mắt đầu tiên | Không phát sinh chi phí tên miền; HTTPS, HSTS và chuyển hướng vào trang quà đã sẵn sàng |
 | 13/09/2026 | Ghi rõ múi giờ, giờ đóng nhận lời chúc, giờ mở quà và URL production thành Vercel Config cho cả ba môi trường | Tránh phụ thuộc ngầm vào mặc định trong mã và giảm rủi ro sai mốc khi deploy lại |
+| 13/09/2026 | Tự động xếp lời chúc đã duyệt theo thời gian gửi khi không đặt vị trí ưu tiên | Quản trị viên không phải nhập số cho từng lời chúc; vị trí thủ công chỉ dùng cho trường hợp muốn đưa một lời chúc lên trước |
+| 13/09/2026 | Trả avatar private qua cùng tên miền ứng dụng thay vì chuyển hướng trình duyệt đến signed URL | Tránh lỗi ảnh trên trình duyệt nhúng điện thoại, đồng thời vẫn giữ bucket riêng tư và phản hồi `no-store` |

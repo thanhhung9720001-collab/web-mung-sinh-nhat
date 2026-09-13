@@ -2,6 +2,7 @@ import {
   createGiftWishMediaUrl,
   type GiftMediaKind,
 } from "@/lib/supabase-admin.server";
+import { proxyPrivateImage } from "@/lib/private-image-response";
 
 type GiftWishMediaRouteContext = {
   params: Promise<{ wishId: string; kind: string }>;
@@ -23,7 +24,13 @@ export async function GET(
       kind as GiftMediaKind,
     );
 
-    return signedUrl ? redirectToPrivateMedia(signedUrl) : notFoundResponse();
+    if (!signedUrl) {
+      return notFoundResponse();
+    }
+
+    return kind === "avatar"
+      ? await proxyPrivateImage(signedUrl)
+      : redirectToPrivateMedia(signedUrl);
   } catch {
     return unavailableResponse();
   }

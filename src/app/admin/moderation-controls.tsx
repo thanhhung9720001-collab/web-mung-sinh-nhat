@@ -31,10 +31,13 @@ export function ModerationControls({
       {status === "approved" ? (
         <section className={styles.orderPanel} aria-labelledby="order-title">
           <h2 id="order-title">Thứ tự hiển thị</h2>
-          <p>Vị trí nhỏ hơn sẽ xuất hiện trước. Để trống nếu chưa muốn xếp.</p>
+          <p>
+            Mặc định hệ thống tự xếp theo thời gian gửi. Chỉ nhập vị trí khi
+            muốn ưu tiên lời chúc này xuất hiện trước.
+          </p>
           <form className={styles.orderForm} action={updateWishDisplayOrder}>
             <input type="hidden" name="wishId" value={wishId} />
-            <label htmlFor="display-position">Vị trí</label>
+            <label htmlFor="display-position">Vị trí ưu tiên (không bắt buộc)</label>
             <input
               id="display-position"
               name="position"
@@ -43,7 +46,7 @@ export function ModerationControls({
               max={10_000}
               step={1}
               defaultValue={displayOrder === null ? "" : displayOrder + 1}
-              placeholder="Ví dụ: 1"
+              placeholder="Để trống để tự xếp"
             />
             <OrderSubmitButton />
           </form>

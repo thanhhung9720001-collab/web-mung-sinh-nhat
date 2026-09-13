@@ -2,6 +2,7 @@ import {
   createAdminMediaUrl,
   type AdminMediaKind,
 } from "@/lib/supabase-admin.server";
+import { proxyPrivateImage } from "@/lib/private-image-response";
 
 type AdminMediaRouteContext = {
   params: Promise<{ wishId: string; kind: string }>;
@@ -25,6 +26,10 @@ export async function GET(
 
     if (!signedUrl) {
       return notFoundResponse();
+    }
+
+    if (kind === "avatar") {
+      return await proxyPrivateImage(signedUrl);
     }
 
     return new Response(null, {

@@ -75,7 +75,7 @@ export default async function AdminWishPage({
         ) : null}
 
         {wish.hasAvatar ? (
-          // This authenticated route redirects directly to short-lived private media.
+          // This authenticated route proxies private images through the app origin.
           // eslint-disable-next-line @next/next/no-img-element
           <img
             className={styles.avatarPreview}
@@ -145,7 +145,11 @@ function WishMetadata({ wish }: { wish: AdminWishDetail }) {
       </div>
       <div>
         <dt>Thứ tự hiển thị</dt>
-        <dd>{wish.displayOrder === null ? "Chưa đặt" : wish.displayOrder + 1}</dd>
+        <dd>
+          {wish.displayOrder === null
+            ? "Tự động theo thời gian gửi"
+            : `Ưu tiên vị trí ${wish.displayOrder + 1}`}
+        </dd>
       </div>
     </dl>
   );
