@@ -155,8 +155,9 @@ Một giai đoạn chỉ được coi là hoàn thành khi đạt tiêu chí ngh
 
 **Thời gian:** 15–17/09/2026  
 **Phụ thuộc:** Giai đoạn 6
+**Trạng thái:** Đang thực hiện (1/11 mục)
 
-- [ ] Tạo và lưu an toàn mật khẩu trang quà cùng mật khẩu quản trị.
+- [x] Tạo và lưu an toàn mật khẩu trang quà cùng mật khẩu quản trị; các password hash và khóa ký phiên đều là Vercel Secret riêng cho Production, Preview và Development.
 - [ ] Chọn tên miền hoặc xác nhận dùng tên miền phụ Vercel.
 - [ ] Khóa nhận lời chúc lúc 23:59 ngày 15/09.
 - [ ] Duyệt và sắp xếp nội dung lần cuối.
@@ -246,3 +247,4 @@ Một giai đoạn chỉ được coi là hoàn thành khi đạt tiêu chí ngh
 | 13/09/2026 | Chuyển tên miền gốc `/` thẳng vào `/gift` và xóa trang placeholder nền tảng | Người nhận mở đúng luồng món quà trên điện thoại, không gặp giao diện thử nghiệm cũ |
 | 13/09/2026 | Chỉ hiển thị link mời đóng góp trong phiên quản trị hợp lệ | Giúp quản trị viên mở và sao chép đúng link bí mật cho người thử mà không công khai đường dẫn ở trang chủ |
 | 13/09/2026 | Nghiệm thu lượt gửi thật trên điện thoại bằng ảnh xác nhận từ người gửi ngoài quản trị | Chứng minh luồng production hoàn tất từ link bí mật đến trạng thái chờ duyệt và cấp link tự chỉnh sửa |
+| 13/09/2026 | Xác nhận `ADMIN_PASSWORD_HASH`, `GIFT_PASSWORD_HASH` và hai khóa ký phiên đều được lưu dạng Vercel Secret ở cả ba môi trường | Không lưu mật khẩu thật trong Git, đồng thời giữ phiên quản trị và phiên mở quà tách biệt |
