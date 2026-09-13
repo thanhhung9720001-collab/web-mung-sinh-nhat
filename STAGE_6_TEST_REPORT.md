@@ -46,8 +46,12 @@ Một lỗi biên đã được phát hiện và sửa: trạng thái phần k�
 - Video dùng `preload="metadata"`; media vẫn qua route xác thực, signed URL ngắn hạn và `no-store`.
 - Hiệu ứng tôn trọng `prefers-reduced-motion`; ngưỡng chạm ngôi sao lớn hơn 44 px.
 
-## Việc cần xác nhận bằng thiết bị/người thật
+## Kiểm thử người gửi thật
 
-Đã xác nhận tên miền production và luồng vào trang quà trên thiết bị iOS thực tế sau khi sửa trang placeholder. Kiểm thử Chromium 360×640, fallback autoplay và xử lý video cũng đã đạt. Nhạc/video chính thức sẽ được phát lại khi được thêm ở Giai đoạn 7.
+Đã xác nhận tên miền production và luồng vào trang quà trên thiết bị iOS thực tế sau khi sửa trang placeholder. Kiểm thử Chromium 360×640, fallback autoplay và xử lý video cũng đã đạt.
 
-Còn một việc cần người thật: nhờ ít nhất một người không phải quản trị viên mở link bí mật, gửi lời chúc thật và báo lại cảm nhận. Việc này không thể được tự chứng nhận thay cho người dùng.
+- Một người ngoài quản trị viên đã mở link bí mật và gửi lời chúc thành công trên điện thoại.
+- Giao diện hiển thị đúng thông báo nội dung đang chờ duyệt.
+- Link chỉnh sửa bí mật được tạo và hiển thị sau khi gửi.
+
+Giai đoạn 6 đạt 12/12 mục. Sau khi nhạc và video chính thức được thêm ở Giai đoạn 7, cần phát lại trên thiết bị đích như một phần của diễn tập ra mắt.

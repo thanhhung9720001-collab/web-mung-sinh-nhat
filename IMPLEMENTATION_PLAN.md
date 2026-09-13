@@ -134,7 +134,7 @@ Một giai đoạn chỉ được coi là hoàn thành khi đạt tiêu chí ngh
 
 **Thời gian:** 14–15/09/2026  
 **Phụ thuộc:** Giai đoạn 3–5
-**Trạng thái:** Đang thực hiện (11/12 hoàn thành, 1 cần người gửi thật)
+**Trạng thái:** Hoàn thành (12/12 mục)
 
 - [x] Kiểm thử lời chúc văn bản và video hợp lệ.
 - [x] Kiểm thử file quá 30 MB, sai định dạng, thiếu tên, mất mạng và gửi trùng.
@@ -147,7 +147,7 @@ Một giai đoạn chỉ được coi là hoàn thành khi đạt tiêu chí ngh
 - [x] Kiểm thử reduced motion, độ tương phản, bàn phím và trình đọc màn hình ở mức cơ bản.
 - [x] Kiểm thử nhạc, video, tạm dừng âm thanh và fallback khi trình duyệt chặn autoplay hoặc media chưa sẵn sàng; phát lại file chính thức thuộc nghiệm thu Giai đoạn 7.
 - [x] Tối ưu ảnh, tải media và hiệu ứng để nội dung đầu tiên hiển thị nhanh trên 4G.
-- [!] Chạy một lượt thử nghiệm thật với ít nhất một người gửi ngoài quản trị viên — cần một người thật mở link và gửi nội dung.
+- [x] Chạy một lượt thử nghiệm thật với người gửi ngoài quản trị viên; xác nhận thông báo chờ duyệt và link chỉnh sửa bí mật hiển thị đúng trên điện thoại.
 
 **Tiêu chí nghiệm thu:** Không còn lỗi nghiêm trọng trong các luồng chính; không có media riêng tư bị lộ; trải nghiệm chấp nhận được trên các thiết bị mục tiêu.
 
@@ -245,3 +245,4 @@ Một giai đoạn chỉ được coi là hoàn thành khi đạt tiêu chí ngh
 | 13/09/2026 | Chuẩn hóa avatar mới thành WebP tối đa 1024×1024 trước khi upload private | Giảm dung lượng tải trên điện thoại và loại bỏ ảnh gốc quá lớn khỏi luồng hiển thị |
 | 13/09/2026 | Chuyển tên miền gốc `/` thẳng vào `/gift` và xóa trang placeholder nền tảng | Người nhận mở đúng luồng món quà trên điện thoại, không gặp giao diện thử nghiệm cũ |
 | 13/09/2026 | Chỉ hiển thị link mời đóng góp trong phiên quản trị hợp lệ | Giúp quản trị viên mở và sao chép đúng link bí mật cho người thử mà không công khai đường dẫn ở trang chủ |
+| 13/09/2026 | Nghiệm thu lượt gửi thật trên điện thoại bằng ảnh xác nhận từ người gửi ngoài quản trị | Chứng minh luồng production hoàn tất từ link bí mật đến trạng thái chờ duyệt và cấp link tự chỉnh sửa |

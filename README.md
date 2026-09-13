@@ -12,7 +12,7 @@ trước khi trở thành những ngôi sao trong trải nghiệm mở quà.
 - Giai đoạn 4 — Quản trị và kiểm duyệt: hoàn thành.
 - Bổ sung sau giai đoạn 4 — Người gửi tự chỉnh sửa: hoàn thành.
 - Giai đoạn 5 — Trải nghiệm mở quà: hoàn thành.
-- Giai đoạn 6 — Hoàn thiện và kiểm thử: 11/12 mục hoàn thành; còn một lượt gửi thử bởi người ngoài quản trị viên.
+- Giai đoạn 6 — Hoàn thiện và kiểm thử: hoàn thành.
 - Giai đoạn 7: chưa triển khai.
 
 Chi tiết và tiêu chí nghiệm thu nằm trong `IMPLEMENTATION_PLAN.md`.
@@ -109,6 +109,10 @@ Bộ kiểm thử hiện có 26 ca cho validation, chữ ký file, lịch đóng
 70%, tiến độ, mật khẩu, phiên, signed URL và độ tương phản. Báo cáo kiểm thử
 trình duyệt mobile, khả năng truy cập và các bước cần người thật xác nhận nằm
 trong `STAGE_6_TEST_REPORT.md`.
+
+Lượt thử nghiệm thật bởi người gửi ngoài quản trị đã hoàn tất trên điện thoại:
+form báo gửi thành công, bản ghi chuyển sang chờ duyệt và link chỉnh sửa bí mật
+được trả về đúng như thiết kế.
 
 ## Chạy cục bộ
 
