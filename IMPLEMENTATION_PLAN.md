@@ -155,11 +155,11 @@ Một giai đoạn chỉ được coi là hoàn thành khi đạt tiêu chí ngh
 
 **Thời gian:** 15–17/09/2026  
 **Phụ thuộc:** Giai đoạn 6
-**Trạng thái:** Đang thực hiện (2/11 mục)
+**Trạng thái:** Đang thực hiện (3/11 mục)
 
 - [x] Tạo và lưu an toàn mật khẩu trang quà cùng mật khẩu quản trị; các password hash và khóa ký phiên đều là Vercel Secret riêng cho Production, Preview và Development.
 - [x] Xác nhận dùng tên miền phụ Vercel `ngan-ha-cua-be-heo.vercel.app` cho bản ra mắt đầu tiên; HTTPS và chuyển hướng `/` → `/gift` hoạt động.
-- [ ] Khóa nhận lời chúc lúc 23:59 ngày 15/09.
+- [x] Cấu hình và xác nhận khóa nhận lời chúc lúc 23:59 ngày 15/09/2026 theo `Asia/Ho_Chi_Minh`; giao diện, trang sửa và Server Action đều từ chối sau mốc.
 - [ ] Duyệt và sắp xếp nội dung lần cuối.
 - [ ] Thay video, lá thư, nhạc và ảnh mặc định bằng nội dung chính thức.
 - [ ] Xuất danh sách lời chúc và tải bản sao toàn bộ media.
@@ -249,3 +249,4 @@ Một giai đoạn chỉ được coi là hoàn thành khi đạt tiêu chí ngh
 | 13/09/2026 | Nghiệm thu lượt gửi thật trên điện thoại bằng ảnh xác nhận từ người gửi ngoài quản trị | Chứng minh luồng production hoàn tất từ link bí mật đến trạng thái chờ duyệt và cấp link tự chỉnh sửa |
 | 13/09/2026 | Xác nhận `ADMIN_PASSWORD_HASH`, `GIFT_PASSWORD_HASH` và hai khóa ký phiên đều được lưu dạng Vercel Secret ở cả ba môi trường | Không lưu mật khẩu thật trong Git, đồng thời giữ phiên quản trị và phiên mở quà tách biệt |
 | 13/09/2026 | Dùng `ngan-ha-cua-be-heo.vercel.app` làm tên miền ra mắt đầu tiên | Không phát sinh chi phí tên miền; HTTPS, HSTS và chuyển hướng vào trang quà đã sẵn sàng |
+| 13/09/2026 | Ghi rõ múi giờ, giờ đóng nhận lời chúc, giờ mở quà và URL production thành Vercel Config cho cả ba môi trường | Tránh phụ thuộc ngầm vào mặc định trong mã và giảm rủi ro sai mốc khi deploy lại |
