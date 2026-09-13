@@ -345,17 +345,49 @@
 }
 
 .wishStar {
+  position: relative;
   display: inline-grid;
   width: 3.25rem;
   height: 3.25rem;
+  padding: 0;
+  border: 0;
   place-items: center;
   color: var(--gift-gold);
+  background: transparent;
   filter: drop-shadow(0 0 0.45rem rgb(230 201 141 / 38%));
   font-family: Georgia, serif;
   font-size: clamp(1.55rem, 5vw, 2.2rem);
   line-height: 1;
   transform: rotate(var(--star-rotation)) scale(var(--star-scale));
   animation: starBreathing 4.8s ease-in-out var(--star-delay) infinite;
+  transition: filter 180ms ease, color 180ms ease;
+}
+
+.wishStar:hover,
+.wishStar:focus-visible {
+  color: #fff4d7;
+  filter: drop-shadow(0 0 0.8rem rgb(242 217 168 / 78%));
+}
+
+.openedStar {
+  color: #d89baa;
+  filter: drop-shadow(0 0 0.4rem rgb(216 155 170 / 42%));
+}
+
+.openedMark {
+  position: absolute;
+  right: -0.1rem;
+  bottom: 0.05rem;
+  display: grid;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  place-items: center;
+  color: var(--gift-night);
+  background: var(--gift-paper);
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  font-weight: 800;
 }
 
 .starSlot:nth-child(3n + 1) .wishStar {
@@ -411,6 +443,361 @@
   margin-top: auto;
 }
 
+.experience {
+  display: flex;
+  width: 100%;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-5);
+}
+
+.progressNote {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.35rem 1rem;
+  color: rgb(248 240 223 / 68%);
+  font-size: var(--text-sm);
+  text-align: center;
+}
+
+.progressNote span:first-child {
+  color: var(--gift-gold);
+  font-weight: var(--font-semibold);
+}
+
+.musicToggle {
+  position: fixed;
+  right: max(1rem, var(--safe-area-right));
+  bottom: max(1rem, var(--safe-area-bottom));
+  z-index: var(--z-raised);
+  display: inline-flex;
+  min-height: var(--tap-target);
+  padding: 0.6rem 0.9rem;
+  border: 1px solid rgb(248 240 223 / 35%);
+  border-radius: 999px;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--gift-paper);
+  background: rgb(23 34 56 / 88%);
+  box-shadow: 0 0.5rem 1.5rem rgb(3 9 20 / 32%);
+  font-size: var(--text-sm);
+  backdrop-filter: blur(8px);
+}
+
+.musicToggle span {
+  color: var(--gift-gold);
+  font-size: 1.2rem;
+}
+
+.audioFallback {
+  position: fixed;
+  right: 1rem;
+  bottom: 4.5rem;
+  z-index: var(--z-raised);
+  width: min(calc(100% - 2rem), 19rem);
+  padding: 0.75rem 1rem;
+  border: 1px solid rgb(230 201 141 / 32%);
+  color: var(--gift-paper);
+  background: var(--gift-night-soft);
+  box-shadow: 0 0.75rem 2rem rgb(3 9 20 / 32%);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+}
+
+.wishOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: grid;
+  overflow-y: auto;
+  padding: max(1rem, var(--safe-area-top)) max(1rem, var(--safe-area-right)) max(1rem, var(--safe-area-bottom)) max(1rem, var(--safe-area-left));
+  place-items: center;
+  background: rgb(8 14 28 / 82%);
+  backdrop-filter: blur(5px);
+  animation: overlayIn 220ms ease-out both;
+}
+
+.wishPaper {
+  position: relative;
+  display: flex;
+  width: min(100%, 38rem);
+  min-height: 24rem;
+  padding: clamp(2.75rem, 8vw, 4.5rem) clamp(1.25rem, 6vw, 3.5rem) clamp(2rem, 6vw, 3rem);
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-5);
+  color: #49383a;
+  background: var(--gift-paper);
+  box-shadow: 0 2rem 6rem rgb(0 0 0 / 42%);
+  text-align: center;
+  transform: rotate(-0.35deg);
+  clip-path: polygon(0 1%, 8% 0, 17% 1%, 27% 0, 39% 1%, 50% 0, 62% 1%, 74% 0, 87% 1%, 100% 0, 99% 17%, 100% 36%, 99% 54%, 100% 72%, 99% 88%, 100% 100%, 84% 99%, 66% 100%, 50% 99%, 32% 100%, 15% 99%, 0 100%, 1% 82%, 0 64%, 1% 47%, 0 28%, 1% 13%);
+  animation: paperIn 320ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.wishTape {
+  position: absolute;
+  top: -0.35rem;
+  left: 50%;
+  width: 7rem;
+  height: 1.7rem;
+  background: rgb(206 153 157 / 58%);
+  transform: translateX(-50%) rotate(-2deg);
+}
+
+.closeWish {
+  position: absolute;
+  top: 0.85rem;
+  right: 0.85rem;
+  display: grid;
+  width: var(--tap-target);
+  height: var(--tap-target);
+  padding: 0;
+  border: 0;
+  place-items: center;
+  color: var(--gift-ink);
+  background: transparent;
+  font-family: Georgia, serif;
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.wishNumber,
+.finaleEyebrow {
+  color: var(--gift-ink);
+  font-size: var(--text-xs);
+  font-weight: var(--font-bold);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.wishPaper h2,
+.finale h2 {
+  color: var(--gift-ink);
+  font-family: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  font-size: clamp(1.75rem, 7vw, 2.7rem);
+  font-weight: 600;
+  line-height: 1.1;
+  text-wrap: balance;
+}
+
+.wishMessage {
+  width: 100%;
+  white-space: pre-wrap;
+  color: #463a3b;
+  font-family: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  font-size: clamp(1.1rem, 4vw, 1.35rem);
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+
+.wishVideoWrap {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.wishVideoWrap video,
+.finaleVideo {
+  width: 100%;
+  max-height: 60svh;
+  border: 0.45rem solid #fffaf0;
+  background: #0b1020;
+  box-shadow: 0 0.75rem 2rem rgb(74 48 52 / 20%);
+}
+
+.wishVideoWrap span {
+  color: #796468;
+  font-size: var(--text-sm);
+}
+
+.revealSender {
+  min-height: var(--tap-target);
+  padding: 0.7rem 1.25rem;
+  border: 1px solid var(--gift-ink);
+  border-radius: 0.65rem 1rem 0.7rem 0.9rem;
+  color: var(--gift-paper);
+  background: var(--gift-ink);
+  box-shadow: 0 0.35rem 0 rgb(91 28 38 / 16%);
+  font-weight: var(--font-bold);
+  transform: rotate(0.5deg);
+}
+
+.senderReveal {
+  display: flex;
+  width: min(100%, 23rem);
+  padding: var(--space-4);
+  border-top: 1px dashed rgb(111 40 50 / 28%);
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  animation: senderIn 360ms ease-out both;
+}
+
+.senderReveal img,
+.defaultSenderAvatar {
+  width: 4.75rem;
+  height: 4.75rem;
+  flex: 0 0 auto;
+  border: 0.3rem solid #fffaf0;
+  object-fit: cover;
+  box-shadow: 0 0.5rem 1.25rem rgb(74 48 52 / 20%);
+  transform: rotate(-3deg);
+}
+
+.defaultSenderAvatar {
+  display: grid;
+  place-items: center;
+  color: var(--gift-ink);
+  background: #edd0d3;
+  font-family: Georgia, serif;
+  font-size: 2rem;
+}
+
+.senderReveal p {
+  color: #6e5458;
+  line-height: 1.55;
+  text-align: left;
+}
+
+.senderReveal strong { color: var(--gift-ink); }
+
+.finaleHint {
+  color: var(--gift-ink);
+  font-family: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  font-style: italic;
+}
+
+.heartOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--z-modal) + 1);
+  display: grid;
+  place-items: center;
+  color: var(--gift-paper);
+  background: rgb(14 24 43 / 96%);
+}
+
+.heartOverlay p {
+  position: absolute;
+  bottom: 12%;
+  width: min(90%, 32rem);
+  color: rgb(248 240 223 / 78%);
+  line-height: 1.6;
+  text-align: center;
+}
+
+.heartStars {
+  position: relative;
+  width: min(80vw, 27rem);
+  aspect-ratio: 1;
+}
+
+.heartStars span {
+  position: absolute;
+  top: var(--heart-from-y);
+  left: var(--heart-from-x);
+  color: var(--gift-gold);
+  filter: drop-shadow(0 0 0.6rem rgb(230 201 141 / 68%));
+  font-size: clamp(1rem, 4vw, 1.75rem);
+  animation: gatherHeart 2.2s cubic-bezier(0.16, 1, 0.3, 1) var(--heart-delay) both;
+}
+
+.finale {
+  display: flex;
+  width: min(100%, 48rem);
+  padding: clamp(3rem, 9vw, 6rem) 0;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(1.5rem, 5vw, 3rem);
+  scroll-margin-top: 2rem;
+  text-align: center;
+  animation: finaleIn 700ms ease-out both;
+}
+
+.finale h2 {
+  color: var(--gift-paper);
+  font-size: clamp(2.1rem, 8vw, 3.6rem);
+}
+
+.finaleEyebrow { color: var(--gift-gold); }
+
+.finalePlaceholder {
+  display: grid;
+  width: min(100%, 38rem);
+  aspect-ratio: 16 / 9;
+  padding: var(--space-6);
+  border: 1px dashed rgb(230 201 141 / 46%);
+  place-content: center;
+  gap: var(--space-3);
+  color: rgb(248 240 223 / 72%);
+  background: var(--gift-night-soft);
+  line-height: 1.6;
+}
+
+.finalePlaceholder span {
+  color: var(--gift-gold);
+  font-size: 2rem;
+}
+
+.letter {
+  position: relative;
+  display: flex;
+  width: min(100%, 38rem);
+  padding: clamp(3rem, 8vw, 5rem) clamp(1.5rem, 7vw, 4rem);
+  flex-direction: column;
+  gap: var(--space-5);
+  color: #49383a;
+  background: var(--gift-paper);
+  box-shadow: 0 1.5rem 4rem rgb(3 9 20 / 28%);
+  font-family: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  font-size: clamp(1.05rem, 3.5vw, 1.25rem);
+  line-height: 1.85;
+  text-align: left;
+  transform: rotate(0.35deg);
+  clip-path: polygon(0 1%, 9% 0, 20% 1%, 33% 0, 47% 1%, 60% 0, 73% 1%, 87% 0, 100% 1%, 99% 99%, 87% 100%, 73% 99%, 60% 100%, 46% 99%, 32% 100%, 18% 99%, 0 100%);
+}
+
+.letterSignature {
+  color: var(--gift-ink);
+  font-style: italic;
+  text-align: right;
+}
+
+@keyframes overlayIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes paperIn {
+  from { opacity: 0; transform: translateY(2rem) rotate(-2deg) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) rotate(-0.35deg) scale(1); }
+}
+
+@keyframes senderIn {
+  from { opacity: 0; transform: translateY(0.75rem); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes gatherHeart {
+  0% { opacity: 0.25; transform: translate(-50%, -50%) scale(0.6); }
+  70%,
+  100% {
+    top: var(--heart-y);
+    left: var(--heart-x);
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes finaleIn {
+  from { opacity: 0; transform: translateY(1.5rem); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 @keyframes starBreathing {
   0%,
   100% {
@@ -430,11 +817,22 @@
   .starField { grid-template-columns: repeat(auto-fit, minmax(6rem, 1fr)); }
 }
 
+@media (max-width: 32rem) {
+  .senderReveal { flex-direction: column; }
+  .senderReveal p { text-align: center; }
+  .wishOverlay { padding-inline: 0.5rem; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .unlockCard,
   .paperTitle,
   .loginForm button,
   .countdownUnit { transform: none; }
 
-  .wishStar { animation: none; }
+  .wishStar,
+  .wishOverlay,
+  .wishPaper,
+  .senderReveal,
+  .heartStars span,
+  .finale { animation: none; }
 }

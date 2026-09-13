@@ -86,9 +86,17 @@ export type AdminGiftPreviewWish = {
   displayOrder: number | null;
 };
 
-export type GiftWishStar = {
+export type GiftApprovedWish = {
   id: string;
+  senderName: string;
+  hasAvatar: boolean;
+  contentType: WishContentType;
+  messageText: string | null;
+  videoDurationSeconds: number | null;
 };
+
+export type GiftMediaKind = "avatar" | "video";
+export type GiftAssetKind = "music" | "finale-video";
 
 type SupabaseAdminConfig = {
   baseUrl: string;
@@ -410,7 +418,7 @@ export async function listAdminApprovedWishesForPreview(): Promise<
   return rows.map(toAdminGiftPreviewWish);
 }
 
-export async function listGiftApprovedWishStars(): Promise<GiftWishStar[]> {
+export async function listGiftApprovedWishes(): Promise<GiftApprovedWish[]> {
   if (!(await hasValidGiftSession())) {
     throw new Error("Unauthorized gift data access.");
   }
@@ -418,7 +426,8 @@ export async function listGiftApprovedWishStars(): Promise<GiftWishStar[]> {
   const config = getSupabaseAdminConfig();
   const query = new URLSearchParams({
     status: "eq.approved",
-    select: "id",
+    select:
+      "id,sender_name,avatar_path,content_type,message_text,video_duration_seconds",
     order: "display_order.asc.nullslast,created_at.asc",
     limit: "200",
   });
@@ -435,16 +444,105 @@ export async function listGiftApprovedWishStars(): Promise<GiftWishStar[]> {
   const rows: unknown = await response.json();
 
   if (!Array.isArray(rows)) {
-    throw new Error("Gift wish star list returned an invalid response.");
+    throw new Error("Gift wish list returned an invalid response.");
   }
 
   return rows.map((row) => {
-    if (!isRecord(row) || typeof row.id !== "string" || !UUID_PATTERN.test(row.id)) {
-      throw new Error("Gift wish star list contained invalid field values.");
+    if (
+      !isRecord(row) ||
+      typeof row.id !== "string" ||
+      !UUID_PATTERN.test(row.id) ||
+      typeof row.sender_name !== "string" ||
+      (row.content_type !== "text" && row.content_type !== "video")
+    ) {
+      throw new Error("Gift wish list contained invalid field values.");
     }
 
-    return { id: row.id };
+    return {
+      id: row.id,
+      senderName: row.sender_name,
+      hasAvatar: typeof row.avatar_path === "string",
+      contentType: row.content_type,
+      messageText:
+        typeof row.message_text === "string" ? row.message_text : null,
+      videoDurationSeconds:
+        typeof row.video_duration_seconds === "number"
+          ? row.video_duration_seconds
+          : null,
+    };
   });
+}
+
+export async function createGiftWishMediaUrl(
+  wishId: string,
+  kind: GiftMediaKind,
+): Promise<string | null> {
+  if (!(await hasValidGiftSession())) {
+    return null;
+  }
+
+  if (!UUID_PATTERN.test(wishId) || (kind !== "avatar" && kind !== "video")) {
+    return null;
+  }
+
+  const config = getSupabaseAdminConfig();
+  const query = new URLSearchParams({
+    id: `eq.${wishId}`,
+    status: "eq.approved",
+    select: kind === "avatar" ? "avatar_path" : "video_path",
+    limit: "1",
+  });
+  const response = await fetch(
+    `${config.baseUrl}/rest/v1/wishes?${query.toString()}`,
+    {
+      headers: adminHeaders(config.secretKey),
+      cache: "no-store",
+    },
+  );
+
+  await ensureSuccessful(response, "Gift media lookup");
+
+  const rows: unknown = await response.json();
+
+  if (!Array.isArray(rows) || rows.length !== 1 || !isRecord(rows[0])) {
+    return null;
+  }
+
+  const objectPath = rows[0][kind === "avatar" ? "avatar_path" : "video_path"];
+
+  if (typeof objectPath !== "string" || !isSafeObjectPath(objectPath)) {
+    return null;
+  }
+
+  const bucket =
+    kind === "avatar"
+      ? process.env.AVATAR_BUCKET || "wish-avatars"
+      : process.env.VIDEO_BUCKET || "wish-videos";
+
+  return createSignedObjectUrl(config, bucket, objectPath, "Gift media signing");
+}
+
+export function hasConfiguredGiftAsset(kind: GiftAssetKind): boolean {
+  const path = getGiftAssetPath(kind);
+  return typeof path === "string" && isSafeObjectPath(path);
+}
+
+export async function createGiftAssetUrl(
+  kind: GiftAssetKind,
+): Promise<string | null> {
+  if (!(await hasValidGiftSession())) {
+    return null;
+  }
+
+  const objectPath = getGiftAssetPath(kind);
+
+  if (!objectPath || !isSafeObjectPath(objectPath)) {
+    return null;
+  }
+
+  const config = getSupabaseAdminConfig();
+  const bucket = process.env.GIFT_ASSETS_BUCKET || "gift-assets";
+  return createSignedObjectUrl(config, bucket, objectPath, "Gift asset signing");
 }
 
 function toAdminGiftPreviewWish(row: unknown): AdminGiftPreviewWish {
@@ -522,6 +620,15 @@ export async function createAdminMediaUrl(
     kind === "avatar"
       ? process.env.AVATAR_BUCKET || "wish-avatars"
       : process.env.VIDEO_BUCKET || "wish-videos";
+  return createSignedObjectUrl(config, bucket, objectPath, "Admin media signing");
+}
+
+async function createSignedObjectUrl(
+  config: SupabaseAdminConfig,
+  bucket: string,
+  objectPath: string,
+  operation: string,
+): Promise<string> {
   const signedResponse = await fetch(
     `${config.baseUrl}/storage/v1/object/sign/${encodeURIComponent(bucket)}/${encodeObjectPath(objectPath)}`,
     {
@@ -535,7 +642,7 @@ export async function createAdminMediaUrl(
     },
   );
 
-  await ensureSuccessful(signedResponse, "Admin media signing");
+  await ensureSuccessful(signedResponse, operation);
 
   const payload: unknown = await signedResponse.json();
 
@@ -807,6 +914,12 @@ function getSignedUrlTtlSeconds(): number {
     Math.max(configured, MIN_SIGNED_URL_TTL_SECONDS),
     MAX_SIGNED_URL_TTL_SECONDS,
   );
+}
+
+function getGiftAssetPath(kind: GiftAssetKind): string | undefined {
+  return kind === "music"
+    ? process.env.GIFT_MUSIC_PATH
+    : process.env.GIFT_FINALE_VIDEO_PATH;
 }
 
 function isSafeObjectPath(path: string): boolean {

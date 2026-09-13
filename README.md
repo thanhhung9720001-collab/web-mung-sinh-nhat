@@ -11,7 +11,8 @@ trước khi trở thành những ngôi sao trong trải nghiệm mở quà.
 - Giai đoạn 3 — Luồng gửi lời chúc: hoàn thành.
 - Giai đoạn 4 — Quản trị và kiểm duyệt: hoàn thành.
 - Bổ sung sau giai đoạn 4 — Người gửi tự chỉnh sửa: hoàn thành.
-- Giai đoạn 5–7: chưa triển khai.
+- Giai đoạn 5 — Trải nghiệm mở quà: hoàn thành.
+- Giai đoạn 6–7: chưa triển khai.
 
 Chi tiết và tiêu chí nghiệm thu nằm trong `IMPLEMENTATION_PLAN.md`.
 
@@ -64,6 +65,28 @@ Mọi truy vấn và Server Action quản trị đều xác thực lại phiên 
 Người không có phiên không thể xem dữ liệu, tạo signed URL hoặc thực hiện thao
 tác kiểm duyệt.
 
+## Trải nghiệm mở quà
+
+Trang `/gift` có mật khẩu và cookie phiên riêng, chỉ mở đúng thời điểm cấu hình
+theo `Asia/Ho_Chi_Minh`. Sau khi mở:
+
+- Mỗi lời chúc `approved` trở thành một ngôi sao; `pending` và `rejected` không
+  được tải vào trải nghiệm.
+- Chạm một ngôi sao để xem nội dung, sau đó chủ động tiết lộ tên và avatar của
+  người gửi.
+- Tiến độ được lưu trên chính trình duyệt bằng ID lời chúc, không lưu thông tin
+  định danh bổ sung lên máy chủ.
+- Phần kết mở tại `ceil(tổng lời chúc đã duyệt × 70%)`; các sao còn lại tiếp tục
+  hoạt động sau đó.
+- Khi đạt ngưỡng, các sao kết thành trái tim rồi mở video và lá thư cuối. Nếu
+  nội dung chính thức chưa có, giao diện hiển thị placeholder an toàn.
+- Nhạc chỉ được phát sau thao tác đầu tiên, có nút bật/tắt và tự tạm dừng khi
+  video chạy. Trường hợp autoplay bị chặn có hướng dẫn thử lại.
+- Chuyển động được giản lược khi thiết bị bật `prefers-reduced-motion`.
+
+Ảnh/video của lời chúc và media phần kết đều đi qua route `/gift` đã xác thực,
+kiểm tra trạng thái `approved` và chuyển hướng đến signed URL sống ngắn.
+
 ## Chạy cục bộ
 
 Yêu cầu Node.js tương thích Next.js 16 và pnpm 11.
@@ -93,6 +116,9 @@ Sao chép `.env.example` để xem toàn bộ giá trị mẫu. Các nhóm chín
 - Truy cập riêng: `CONTRIBUTION_LINK_SECRET`, `ADMIN_PASSWORD_HASH`,
   `SESSION_SECRET`, `WISH_EDIT_SECRET` và `ADMIN_SESSION_TTL_SECONDS`.
 - Media: tên bucket và giới hạn avatar/video.
+- Media phần kết: `GIFT_ASSETS_BUCKET`, `GIFT_MUSIC_PATH` và
+  `GIFT_FINALE_VIDEO_PATH`; hai object path có thể để trống cho tới khi có file
+  chính thức.
 - Signed URL: `SIGNED_URL_TTL_SECONDS`.
 - Chống spam: `CONTRIBUTION_RATE_LIMIT_MAX` và
   `CONTRIBUTION_RATE_LIMIT_WINDOW_SECONDS`.
@@ -103,7 +129,7 @@ trường cần sử dụng.
 ## Supabase
 
 Migration nằm trong `supabase/migrations/` và đã được áp dụng lên project liên
-kết. Hai bucket `wish-avatars` và `wish-videos` đều private. Các bảng không cấp
+liên kết. Ba bucket `wish-avatars`, `wish-videos` và `gift-assets` đều private. Các bảng không cấp
 quyền cho `anon` hoặc `authenticated`; chỉ backend tin cậy dùng server key mới
 được truy cập.
 
@@ -140,6 +166,8 @@ so sánh thời gian bằng chuỗi đã định dạng.
   hiện.
 - Signed URL cho media quản trị chỉ được tạo sau khi xác minh lại phiên và có
   thời gian sống ngắn.
+- Media trang quà chỉ được ký sau khi xác minh phiên người nhận; media lời chúc
+  còn yêu cầu bản ghi đang ở trạng thái `approved`.
 - Link chỉnh sửa không chứa khóa Supabase hoặc mật khẩu; chữ ký được tạo bằng
   `WISH_EDIT_SECRET` server-only, hết hạn đúng lúc đóng form và có thể thu hồi
   đồng loạt bằng cách xoay secret này.

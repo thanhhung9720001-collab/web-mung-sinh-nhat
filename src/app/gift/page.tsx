@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import { connection } from "next/server";
 import { hasValidGiftSession } from "@/lib/gift-session.server";
 import {
-  listGiftApprovedWishStars,
-  type GiftWishStar,
+  hasConfiguredGiftAsset,
+  listGiftApprovedWishes,
+  type GiftApprovedWish,
 } from "@/lib/supabase-admin.server";
 import {
   formatAppDateTime,
@@ -12,8 +13,8 @@ import {
 } from "@/lib/time";
 import { logoutGift } from "./actions";
 import { GiftCountdown } from "./gift-countdown";
+import { GiftExperience } from "./gift-experience";
 import { GiftLoginForm } from "./login-form";
-import { GiftStarSky } from "./gift-star-sky";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
@@ -79,11 +80,11 @@ export default async function GiftPage() {
     );
   }
 
-  let stars: GiftWishStar[] = [];
+  let wishes: GiftApprovedWish[] = [];
   let hasSkyError = false;
 
   try {
-    stars = await listGiftApprovedWishStars();
+    wishes = await listGiftApprovedWishes();
   } catch {
     hasSkyError = true;
   }
@@ -103,7 +104,7 @@ export default async function GiftPage() {
             Mỗi ngôi sao dưới đây là một điều mà ai đó đã lén để dành cho em.
           </p>
           {!hasSkyError ? (
-            <p className={styles.starCount}>{stars.length} ngôi sao đang sáng</p>
+            <p className={styles.starCount}>{wishes.length} ngôi sao đang sáng</p>
           ) : null}
         </header>
 
@@ -113,7 +114,11 @@ export default async function GiftPage() {
             <p>Mây vừa che mất bầu trời. Em tải lại trang sau một chút nha.</p>
           </div>
         ) : (
-          <GiftStarSky stars={stars} />
+          <GiftExperience
+            wishes={wishes}
+            hasFinalVideo={hasConfiguredGiftAsset("finale-video")}
+            hasMusic={hasConfiguredGiftAsset("music")}
+          />
         )}
 
         <form className={styles.logoutForm} action={logoutGift}>

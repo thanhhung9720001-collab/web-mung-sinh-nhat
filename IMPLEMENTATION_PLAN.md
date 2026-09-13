@@ -109,7 +109,7 @@ Một giai đoạn chỉ được coi là hoàn thành khi đạt tiêu chí ngh
 
 **Thời gian:** 12–13/09/2026  
 **Phụ thuộc:** Giai đoạn 4
-**Trạng thái:** Đang thực hiện (3/11 mục hoàn thành)
+**Trạng thái:** Hoàn thành (11/11 mục)
 
 **Hạng mục giao diện bổ sung đã hoàn thành:**
 
@@ -119,14 +119,14 @@ Một giai đoạn chỉ được coi là hoàn thành khi đạt tiêu chí ngh
 - [x] Xây đăng nhập `/gift` với mật khẩu riêng và cookie phiên.
 - [x] Xây màn hình đếm ngược theo `Asia/Ho_Chi_Minh`.
 - [x] Tạo bầu trời sao từ các lời chúc `approved`.
-- [ ] Tạo luồng mở nội dung rồi tiết lộ ảnh và tên người gửi.
-- [ ] Ghi nhận tiến độ khám phá theo phiên/trình duyệt.
-- [ ] Tính ngưỡng mở phần kết bằng `ceil(approvedTotal × 70%)`.
-- [ ] Tạo hoạt ảnh các sao kết thành trái tim.
-- [ ] Tạo phần video và lá thư cuối với nội dung tạm nếu bản chính chưa có.
-- [ ] Thêm nhạc nền sau lần chạm đầu tiên và nút bật/tắt.
-- [ ] Giảm âm hoặc tạm dừng nhạc khi video phát.
-- [ ] Thêm chế độ giảm chuyển động và trạng thái dự phòng khi autoplay bị chặn.
+- [x] Tạo luồng mở nội dung rồi tiết lộ ảnh và tên người gửi.
+- [x] Ghi nhận tiến độ khám phá theo phiên/trình duyệt.
+- [x] Tính ngưỡng mở phần kết bằng `ceil(approvedTotal × 70%)`.
+- [x] Tạo hoạt ảnh các sao kết thành trái tim.
+- [x] Tạo phần video và lá thư cuối với nội dung tạm nếu bản chính chưa có.
+- [x] Thêm nhạc nền sau lần chạm đầu tiên và nút bật/tắt.
+- [x] Giảm âm hoặc tạm dừng nhạc khi video phát.
+- [x] Thêm chế độ giảm chuyển động và trạng thái dự phòng khi autoplay bị chặn.
 
 **Tiêu chí nghiệm thu:** Người nhận có thể đăng nhập, mở sao, xem nội dung, tiết lộ danh tính và mở đúng phần kết; các sao còn lại vẫn hoạt động sau đó.
 
@@ -233,3 +233,9 @@ Một giai đoạn chỉ được coi là hoàn thành khi đạt tiêu chí ngh
 | 12/09/2026 | Đồng bộ giao diện người nhận và người gửi theo cùng ngôn ngữ sổ lưu niệm; giữ trang quản trị đơn giản | Tạo cảm giác món quà liền mạch cho người dùng chính và dành ngân sách triển khai cho trải nghiệm quan trọng hơn |
 | 12/09/2026 | Nhận ảnh thật qua `private-assets/gift/`, bỏ qua ảnh trong Git và không đặt trong `public/` | Tránh vô tình công khai ảnh cá nhân; ảnh chính thức sẽ được tối ưu rồi tải vào Supabase Storage riêng tư ở giai đoạn hoàn thiện |
 | 13/09/2026 | Mỗi lời chúc `approved` tạo một ngôi sao có thứ tự và hình dáng ổn định; truy vấn trang quà chỉ trả ID sau khi xác thực lại phiên | Giữ bầu trời nhất quán qua mỗi lần tải, không đưa tên, nội dung hoặc đường dẫn media xuống trình duyệt trước bước mở lời chúc |
+| 13/09/2026 | Mở ngôi sao theo hai bước: xem nội dung trước, chủ động tiết lộ tên và avatar sau | Tạo nhịp tò mò tự nhiên và vẫn để Bé Heo kiểm soát khoảnh khắc nhận ra người gửi |
+| 13/09/2026 | Lưu danh sách ID đã mở và trạng thái phần kết trong `localStorage`, luôn lọc lại theo danh sách `approved` hiện tại | Giữ tiến độ trên cùng trình duyệt mà không cần thêm dữ liệu định danh hoặc bảng theo dõi phía máy chủ |
+| 13/09/2026 | Mở phần kết khi số sao đã xem đạt `ceil(approvedTotal × 70%)`; với tổng bằng 0 thì không tự mở | Bám đúng yêu cầu 70% và tránh hiển thị phần kết khi chưa có lời chúc nào |
+| 13/09/2026 | Chạy hoạt ảnh kết sao thành trái tim sau khi đóng lời chúc đạt ngưỡng; bỏ qua chuyển động nếu hệ điều hành bật reduced motion | Không che nội dung đang đọc và tôn trọng lựa chọn hỗ trợ tiếp cận của người dùng |
+| 13/09/2026 | Lưu nhạc và video kết trong bucket `gift-assets` private, phát qua route xác thực và dùng placeholder khi chưa có file chính thức | Hoàn thiện luồng trước khi nội dung cá nhân sẵn sàng mà không công khai media hoặc ghi object path vào client |
+| 13/09/2026 | Chỉ thử phát nhạc sau thao tác người dùng, cung cấp nút bật/tắt và tạm dừng nhạc trong lúc video phát | Tuân thủ chính sách autoplay của trình duyệt và tránh hai luồng âm thanh phát chồng nhau |
