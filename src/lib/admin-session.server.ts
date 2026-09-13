@@ -9,7 +9,7 @@ import {
 } from "@/lib/session-token";
 
 const ADMIN_SESSION_COOKIE = "birthday_admin_session";
-const SESSION_VERSION = "v1";
+const SESSION_VERSION = "v2";
 const DEFAULT_SESSION_TTL_SECONDS = 8 * 60 * 60;
 const MAX_SESSION_TTL_SECONDS = 24 * 60 * 60;
 const MINIMUM_SESSION_SECRET_LENGTH = 32;

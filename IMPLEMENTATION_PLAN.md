@@ -250,5 +250,6 @@ Một giai đoạn chỉ được coi là hoàn thành khi đạt tiêu chí ngh
 | 13/09/2026 | Xác nhận `ADMIN_PASSWORD_HASH`, `GIFT_PASSWORD_HASH` và hai khóa ký phiên đều được lưu dạng Vercel Secret ở cả ba môi trường | Không lưu mật khẩu thật trong Git, đồng thời giữ phiên quản trị và phiên mở quà tách biệt |
 | 13/09/2026 | Dùng `ngan-ha-cua-be-heo.vercel.app` làm tên miền ra mắt đầu tiên | Không phát sinh chi phí tên miền; HTTPS, HSTS và chuyển hướng vào trang quà đã sẵn sàng |
 | 13/09/2026 | Ghi rõ múi giờ, giờ đóng nhận lời chúc, giờ mở quà và URL production thành Vercel Config cho cả ba môi trường | Tránh phụ thuộc ngầm vào mặc định trong mã và giảm rủi ro sai mốc khi deploy lại |
+| 13/09/2026 | Đặt lại mật khẩu quản trị, cập nhật hash Secret ở cả ba môi trường và nâng phiên admin lên `v2` | Mật khẩu cũ không thể dùng để đăng nhập mới và toàn bộ cookie quản trị phiên bản cũ bị thu hồi |
 | 13/09/2026 | Tự động xếp lời chúc đã duyệt theo thời gian gửi khi không đặt vị trí ưu tiên | Quản trị viên không phải nhập số cho từng lời chúc; vị trí thủ công chỉ dùng cho trường hợp muốn đưa một lời chúc lên trước |
 | 13/09/2026 | Trả avatar private qua cùng tên miền ứng dụng thay vì chuyển hướng trình duyệt đến signed URL | Tránh lỗi ảnh trên trình duyệt nhúng điện thoại, đồng thời vẫn giữ bucket riêng tư và phản hồi `no-store` |
