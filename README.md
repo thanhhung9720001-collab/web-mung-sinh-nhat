@@ -13,9 +13,11 @@ trước khi trở thành những ngôi sao trong trải nghiệm mở quà.
 - Bổ sung sau giai đoạn 4 — Người gửi tự chỉnh sửa: hoàn thành.
 - Giai đoạn 5 — Trải nghiệm mở quà: hoàn thành.
 - Giai đoạn 6 — Hoàn thiện và kiểm thử: hoàn thành.
-- Giai đoạn 7 — Chuẩn bị ra mắt và vận hành: 1/11 mục hoàn thành.
+- Giai đoạn 7 — Chuẩn bị ra mắt và vận hành: 2/11 mục hoàn thành.
 
 Chi tiết và tiêu chí nghiệm thu nằm trong `IMPLEMENTATION_PLAN.md`.
+
+Production: [ngan-ha-cua-be-heo.vercel.app](https://ngan-ha-cua-be-heo.vercel.app)
 
 ## Công nghệ
 

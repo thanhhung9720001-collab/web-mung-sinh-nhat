@@ -97,9 +97,9 @@ Website là một món quà sinh nhật riêng tư, ưu tiên trải nghiệm tr
 | Lá thư cuối | Chưa có | 13/09 | Có thể viết nháp trước, chỉnh lần cuối ngày 16/09 |
 | Nhạc nền | Chưa chọn | 13/09 | Cần file hoặc quyền sử dụng phù hợp |
 | Ảnh đại diện mặc định | Chuẩn bị sau | 12/09 | Nên đồng bộ phong cách bầu trời sao |
-| Mật khẩu trang quà | Chưa tạo | Trước triển khai thật | Không ghi mật khẩu thật vào tài liệu hoặc Git |
-| Mật khẩu quản trị | Chưa tạo | Trước triển khai thật | Phải khác mật khẩu trang quà |
-| Tên miền | Quyết định sau | 14/09 | Có thể dùng tên miền phụ miễn phí của Vercel |
+| Mật khẩu trang quà | Đã tạo và lưu hash trên Vercel | Hoàn thành | Không ghi mật khẩu thật vào tài liệu hoặc Git |
+| Mật khẩu quản trị | Đã tạo riêng và lưu hash trên Vercel | Hoàn thành | Khác mật khẩu trang quà; không lưu bản rõ trong Git |
+| Tên miền | Đã chốt tên miền phụ Vercel | Hoàn thành | `ngan-ha-cua-be-heo.vercel.app` |
 
 ## 7. Nguyên tắc mật khẩu
 
