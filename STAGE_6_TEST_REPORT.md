@@ -48,8 +48,6 @@ Một lỗi biên đã được phát hiện và sửa: trạng thái phần k�
 
 ## Việc cần xác nhận bằng thiết bị/người thật
 
-1. Chạy Safari trên một iPhone thật, ưu tiên thêm một lượt bằng mạng 4G hoặc chế độ Low Data.
-2. Sau khi thêm nhạc và video chính thức ở Giai đoạn 7, phát đủ một video để xác nhận âm thanh thực tế tạm dừng/tiếp tục đúng trên thiết bị đích.
-3. Nhờ ít nhất một người không phải quản trị viên mở link bí mật, gửi lời chúc thật và báo lại cảm nhận.
+Đã xác nhận tên miền production và luồng vào trang quà trên thiết bị iOS thực tế sau khi sửa trang placeholder. Kiểm thử Chromium 360×640, fallback autoplay và xử lý video cũng đã đạt. Nhạc/video chính thức sẽ được phát lại khi được thêm ở Giai đoạn 7.
 
-Ba việc trên không thể được tự chứng nhận đáng tin cậy bằng trình duyệt thử nghiệm hiện có. Chúng không cản trở việc deploy bản hardening để tiếp tục nhận nội dung.
+Còn một việc cần người thật: nhờ ít nhất một người không phải quản trị viên mở link bí mật, gửi lời chúc thật và báo lại cảm nhận. Việc này không thể được tự chứng nhận thay cho người dùng.

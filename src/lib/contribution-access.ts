@@ -27,3 +27,17 @@ export function isContributionSecretValid(candidate: string): boolean {
 
   return timingSafeEqual(digest(candidate), digest(expected));
 }
+
+export function getContributionInvitePath(): string | null {
+  const secret = process.env.CONTRIBUTION_LINK_SECRET;
+
+  if (
+    !secret ||
+    secret === EXAMPLE_SECRET ||
+    secret.length < MINIMUM_SECRET_LENGTH
+  ) {
+    return null;
+  }
+
+  return `/contribute/${encodeURIComponent(secret)}`;
+}

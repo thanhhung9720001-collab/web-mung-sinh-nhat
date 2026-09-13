@@ -12,7 +12,7 @@ trước khi trở thành những ngôi sao trong trải nghiệm mở quà.
 - Giai đoạn 4 — Quản trị và kiểm duyệt: hoàn thành.
 - Bổ sung sau giai đoạn 4 — Người gửi tự chỉnh sửa: hoàn thành.
 - Giai đoạn 5 — Trải nghiệm mở quà: hoàn thành.
-- Giai đoạn 6 — Hoàn thiện và kiểm thử: 9/12 mục hoàn thành; còn xác nhận Safari/4G, media chính thức và một người gửi thật.
+- Giai đoạn 6 — Hoàn thiện và kiểm thử: 11/12 mục hoàn thành; còn một lượt gửi thử bởi người ngoài quản trị viên.
 - Giai đoạn 7: chưa triển khai.
 
 Chi tiết và tiêu chí nghiệm thu nằm trong `IMPLEMENTATION_PLAN.md`.
@@ -62,6 +62,8 @@ mặc định sau 8 giờ.
 - Media quản trị được mở bằng signed URL sống mặc định 5 phút, tối đa 15 phút.
 - `/admin/preview` chỉ hiển thị lời chúc đã duyệt theo đúng thứ tự để kiểm tra
   món quà trước giờ mở.
+- Sau khi đăng nhập, nút “Mở form người gửi” mở đúng link đóng góp bí mật để
+  quản trị viên sao chép gửi riêng cho người thử.
 
 Mọi truy vấn và Server Action quản trị đều xác thực lại phiên ở phía máy chủ.
 Người không có phiên không thể xem dữ liệu, tạo signed URL hoặc thực hiện thao

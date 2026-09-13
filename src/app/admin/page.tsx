@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { connection } from "next/server";
 import { hasValidAdminSession } from "@/lib/admin-session.server";
+import { getContributionInvitePath } from "@/lib/contribution-access";
 import {
   listAdminWishes,
   type AdminWishSummary,
@@ -71,6 +72,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const query = await searchParams;
   const statusFilter = parseStatusFilter(query.status);
   const notice = parseListNotice(query.notice);
+  const contributionInvitePath = getContributionInvitePath();
   let wishes: AdminWishSummary[] = [];
   let loadFailed = false;
 
@@ -93,6 +95,16 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
             </p>
           </div>
           <form action={logoutAdmin}>
+            {contributionInvitePath ? (
+              <a
+                className={styles.contributionLink}
+                href={contributionInvitePath}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Mở form người gửi
+              </a>
+            ) : null}
             <Link className={styles.previewGiftLink} href="/admin/preview">
               Xem thử món quà
             </Link>
