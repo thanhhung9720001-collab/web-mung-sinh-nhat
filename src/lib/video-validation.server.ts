@@ -1,9 +1,7 @@
-import "server-only";
-
 import {
   ALLOWED_VIDEO_MIME_TYPES,
   type VideoConstraints,
-} from "@/lib/media-constraints";
+} from "./media-constraints.ts";
 
 type ValidVideo = {
   ok: true;

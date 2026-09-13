@@ -35,7 +35,7 @@ export default async function AdminGiftPreviewPage() {
           <h1>Ngân Hà Của Bé Heo</h1>
           <p>
             Đây là bản kiểm tra nội dung đã duyệt trước giờ mở quà. Giao diện
-            trải nghiệm chính thức sẽ được hoàn thiện ở Giai đoạn 5.
+            chính thức ở `/gift` vẫn khóa theo đúng lịch mở quà đã cấu hình.
           </p>
         </div>
         <Link href="/admin?status=approved">← Về phòng điều khiển</Link>

@@ -1,7 +1,12 @@
 "use client";
 
-import type { CSSProperties } from "react";
+import type { CSSProperties, KeyboardEvent as ReactKeyboardEvent } from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  getFinaleThreshold,
+  isStoredGiftProgress,
+  restoreOpenedWishIds,
+} from "./gift-experience-utils";
 import styles from "./page.module.css";
 
 export type GiftExperienceWish = {
@@ -45,11 +50,13 @@ export function GiftExperience({
   const [musicEnabled, setMusicEnabled] = useState(true);
   const [musicState, setMusicState] = useState<MusicState>(hasMusic ? "idle" : "unavailable");
   const audioRef = useRef<HTMLAudioElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const lastTriggerRef = useRef<HTMLButtonElement>(null);
   const heartTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const musicAttemptedRef = useRef(false);
   const resumeMusicAfterVideoRef = useRef(false);
 
-  const threshold = Math.ceil(wishes.length * 0.7);
+  const threshold = getFinaleThreshold(wishes.length);
   const selectedWish = useMemo(
     () => wishes.find((wish) => wish.id === selectedWishId) ?? null,
     [selectedWishId, wishes],
@@ -65,7 +72,7 @@ export function GiftExperience({
   }, []);
 
   useEffect(() => {
-    const validIds = new Set(wishes.map((wish) => wish.id));
+    const approvedIds = wishes.map((wish) => wish.id);
     let cancelled = false;
 
     queueMicrotask(() => {
@@ -77,15 +84,15 @@ export function GiftExperience({
         const rawProgress = window.localStorage.getItem(STORAGE_KEY);
         const parsed: unknown = rawProgress ? JSON.parse(rawProgress) : null;
 
-        if (isStoredProgress(parsed)) {
-          const restoredIds = new Set(
-            parsed.openedIds.filter((id) => validIds.has(id)),
+        if (isStoredGiftProgress(parsed)) {
+          const restoredIds = restoreOpenedWishIds(
+            parsed.openedIds,
+            approvedIds,
           );
           setOpenedIds(restoredIds);
           setFinaleUnlocked(
-            parsed.finaleUnlocked ||
-              (wishes.length > 0 &&
-                restoredIds.size >= Math.ceil(wishes.length * 0.7)),
+            wishes.length > 0 &&
+              restoredIds.size >= getFinaleThreshold(wishes.length),
           );
         }
       } catch {
@@ -142,6 +149,21 @@ export function GiftExperience({
     return () => window.removeEventListener("keydown", handleEscape);
   });
 
+  useEffect(() => {
+    if (!selectedWishId) {
+      return;
+    }
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    closeButtonRef.current?.focus();
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      requestAnimationFrame(() => lastTriggerRef.current?.focus());
+    };
+  }, [selectedWishId]);
+
   const startMusic = useCallback(async () => {
     const audio = audioRef.current;
 
@@ -166,8 +188,9 @@ export function GiftExperience({
     }
   }
 
-  function openWish(wishId: string) {
+  function openWish(wishId: string, trigger: HTMLButtonElement) {
     handleFirstInteraction();
+    lastTriggerRef.current = trigger;
     setSelectedWishId(wishId);
     setSenderRevealed(false);
     setOpenedIds((current) => {
@@ -187,6 +210,38 @@ export function GiftExperience({
 
     if (thresholdMet && !finaleUnlocked && !heartAnimating) {
       startFinale();
+    }
+  }
+
+  function revealSender() {
+    setSenderRevealed(true);
+    requestAnimationFrame(() => closeButtonRef.current?.focus());
+  }
+
+  function keepFocusInsideDialog(event: ReactKeyboardEvent<HTMLElement>) {
+    if (event.key !== "Tab") {
+      return;
+    }
+
+    const focusable = Array.from(
+      event.currentTarget.querySelectorAll<HTMLElement>(
+        'button:not([disabled]), video[controls], [tabindex]:not([tabindex="-1"])',
+      ),
+    ).filter((element) => !element.hidden);
+
+    if (focusable.length === 0) {
+      return;
+    }
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
     }
   }
 
@@ -318,7 +373,7 @@ export function GiftExperience({
                 <button
                   className={`${styles.wishStar} ${isOpened ? styles.openedStar : ""}`}
                   type="button"
-                  onClick={() => openWish(wish.id)}
+                  onClick={(event) => openWish(wish.id, event.currentTarget)}
                   aria-label={`Lời chúc số ${index + 1}${isOpened ? ", đã mở" : ", chưa mở"}`}
                 >
                   <span aria-hidden="true">{STAR_GLYPHS[seed % STAR_GLYPHS.length]}</span>
@@ -339,16 +394,18 @@ export function GiftExperience({
             role="dialog"
             aria-modal="true"
             aria-labelledby="opened-wish-title"
+            aria-describedby="opened-wish-content"
+            onKeyDown={keepFocusInsideDialog}
           >
             <span className={styles.wishTape} aria-hidden="true" />
-            <button className={styles.closeWish} type="button" onClick={closeWish} aria-label="Đóng lời chúc">×</button>
+            <button ref={closeButtonRef} className={styles.closeWish} type="button" onClick={closeWish} aria-label="Đóng lời chúc">×</button>
             <span className={styles.wishNumber}>Ngôi sao {wishes.indexOf(selectedWish) + 1}</span>
             <h2 id="opened-wish-title">Một điều dành riêng cho Bé Heo</h2>
 
             {selectedWish.contentType === "text" ? (
-              <p className={styles.wishMessage}>{selectedWish.messageText}</p>
+              <p className={styles.wishMessage} id="opened-wish-content">{selectedWish.messageText}</p>
             ) : (
-              <div className={styles.wishVideoWrap}>
+              <div className={styles.wishVideoWrap} id="opened-wish-content">
                 <video
                   controls
                   playsInline
@@ -369,15 +426,22 @@ export function GiftExperience({
             )}
 
             {!senderRevealed ? (
-              <button className={styles.revealSender} type="button" onClick={() => setSenderRevealed(true)}>
+              <button className={styles.revealSender} type="button" onClick={revealSender}>
                 Ai gửi vậy ta?
               </button>
             ) : (
-              <div className={styles.senderReveal}>
+              <div className={styles.senderReveal} role="status" aria-live="polite">
                 {selectedWish.hasAvatar ? (
                   // This authenticated route only signs media for an approved wish.
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={`/gift/media/${selectedWish.id}/avatar`} alt={`Ảnh của ${selectedWish.senderName}`} />
+                  <img
+                    src={`/gift/media/${selectedWish.id}/avatar`}
+                    alt={`Ảnh của ${selectedWish.senderName}`}
+                    width={152}
+                    height={152}
+                    loading="lazy"
+                    decoding="async"
+                  />
                 ) : (
                   <span className={styles.defaultSenderAvatar} aria-hidden="true">♡</span>
                 )}
@@ -476,22 +540,4 @@ function hashStarId(id: string): number {
   }
 
   return hash >>> 0;
-}
-
-function isStoredProgress(value: unknown): value is {
-  version: 1;
-  openedIds: string[];
-  finaleUnlocked: boolean;
-} {
-  if (!value || typeof value !== "object") {
-    return false;
-  }
-
-  const progress = value as Record<string, unknown>;
-  return (
-    progress.version === 1 &&
-    Array.isArray(progress.openedIds) &&
-    progress.openedIds.every((id) => typeof id === "string") &&
-    typeof progress.finaleUnlocked === "boolean"
-  );
 }

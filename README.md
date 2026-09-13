@@ -12,7 +12,8 @@ trước khi trở thành những ngôi sao trong trải nghiệm mở quà.
 - Giai đoạn 4 — Quản trị và kiểm duyệt: hoàn thành.
 - Bổ sung sau giai đoạn 4 — Người gửi tự chỉnh sửa: hoàn thành.
 - Giai đoạn 5 — Trải nghiệm mở quà: hoàn thành.
-- Giai đoạn 6–7: chưa triển khai.
+- Giai đoạn 6 — Hoàn thiện và kiểm thử: 9/12 mục hoàn thành; còn xác nhận Safari/4G, media chính thức và một người gửi thật.
+- Giai đoạn 7: chưa triển khai.
 
 Chi tiết và tiêu chí nghiệm thu nằm trong `IMPLEMENTATION_PLAN.md`.
 
@@ -32,6 +33,7 @@ nhận đồng ý sử dụng nội dung.
 
 - Secret của đường dẫn luôn được xác minh phía máy chủ.
 - Avatar hỗ trợ JPEG, PNG, WebP và tối đa 5 MB.
+- Avatar hợp lệ được xoay đúng chiều, thu về tối đa 1024×1024 và chuyển WebP trước khi lưu private.
 - Video hỗ trợ MP4, WebM, QuickTime; tối đa 30 MB và 60 giây.
 - Media được upload bằng backend vào bucket private; database chỉ lưu object
   path, không lưu URL công khai.
@@ -86,6 +88,22 @@ theo `Asia/Ho_Chi_Minh`. Sau khi mở:
 
 Ảnh/video của lời chúc và media phần kết đều đi qua route `/gift` đã xác thực,
 kiểm tra trạng thái `approved` và chuyển hướng đến signed URL sống ngắn.
+
+## Kiểm thử và hardening
+
+Chạy các lệnh sau trước khi deploy:
+
+```bash
+pnpm test
+pnpm lint
+pnpm build
+pnpm audit:client-secrets
+```
+
+Bộ kiểm thử hiện có 26 ca cho validation, chữ ký file, lịch đóng/mở, công thức
+70%, tiến độ, mật khẩu, phiên, signed URL và độ tương phản. Báo cáo kiểm thử
+trình duyệt mobile, khả năng truy cập và các bước cần người thật xác nhận nằm
+trong `STAGE_6_TEST_REPORT.md`.
 
 ## Chạy cục bộ
 

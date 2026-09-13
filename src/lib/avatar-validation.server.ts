@@ -1,9 +1,7 @@
-import "server-only";
-
 import {
   ALLOWED_AVATAR_MIME_TYPES,
   type AvatarConstraints,
-} from "@/lib/media-constraints";
+} from "./media-constraints.ts";
 
 type AvatarMimeType = (typeof ALLOWED_AVATAR_MIME_TYPES)[number];
 

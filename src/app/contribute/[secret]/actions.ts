@@ -3,6 +3,10 @@
 import { randomUUID } from "node:crypto";
 import { notFound } from "next/navigation";
 import { validateAvatarFile } from "@/lib/avatar-validation.server";
+import {
+  optimizeAvatar,
+  OPTIMIZED_AVATAR_MIME_TYPE,
+} from "@/lib/avatar-processing.server";
 import { isContributionSecretValid } from "@/lib/contribution-access";
 import {
   getContributionRateLimitConfig,
@@ -31,12 +35,6 @@ import {
 } from "@/lib/time";
 import { validateVideoFile } from "@/lib/video-validation.server";
 import { createWishEditPath } from "@/lib/wish-edit-token.server";
-
-const AVATAR_EXTENSIONS = {
-  "image/jpeg": "jpg",
-  "image/png": "png",
-  "image/webp": "webp",
-} as const;
 
 const VIDEO_EXTENSIONS = {
   "video/mp4": "mp4",
@@ -205,7 +203,7 @@ export async function submitContribution(
   const videoBucket = process.env.VIDEO_BUCKET || "wish-videos";
   const avatarPath =
     avatarFile && avatarResult?.ok
-      ? `${wishId}/avatar.${AVATAR_EXTENSIONS[avatarResult.mimeType]}`
+      ? `${wishId}/avatar.webp`
       : null;
   const videoPath =
     videoFile && videoResult?.ok
@@ -216,11 +214,12 @@ export async function submitContribution(
 
   try {
     if (avatarFile && avatarResult?.ok && avatarPath) {
+      const optimizedAvatar = await optimizeAvatar(avatarFile);
       await uploadPrivateObject(
         avatarBucket,
         avatarPath,
-        avatarFile,
-        avatarResult.mimeType,
+        optimizedAvatar,
+        OPTIMIZED_AVATAR_MIME_TYPE,
       );
       uploaded.push({ bucket: avatarBucket, path: avatarPath });
     }

@@ -134,19 +134,20 @@ Một giai đoạn chỉ được coi là hoàn thành khi đạt tiêu chí ngh
 
 **Thời gian:** 14–15/09/2026  
 **Phụ thuộc:** Giai đoạn 3–5
+**Trạng thái:** Đang thực hiện (9/12 hoàn thành, 2 kiểm thử một phần, 1 cần người gửi thật)
 
-- [ ] Kiểm thử lời chúc văn bản và video hợp lệ.
-- [ ] Kiểm thử file quá 30 MB, sai định dạng, thiếu tên, mất mạng và gửi trùng.
-- [ ] Xác nhận nội dung `pending`/`rejected` không xuất hiện trên trang quà.
-- [ ] Kiểm thử signed URL hết hạn và quyền truy cập media.
-- [ ] Kiểm thử cookie hết hạn, đăng xuất và mật khẩu sai.
-- [ ] Kiểm thử mốc đóng form, đếm ngược và giờ mở quà.
-- [ ] Kiểm thử các trường hợp tổng lời chúc nhỏ/lẻ cho công thức 70%.
-- [ ] Kiểm thử Safari và Chrome trên điện thoại, màn hình nhỏ và mạng chậm.
-- [ ] Kiểm thử reduced motion, độ tương phản, bàn phím và trình đọc màn hình ở mức cơ bản.
-- [ ] Kiểm thử nhạc, video và trường hợp trình duyệt chặn autoplay.
-- [ ] Tối ưu ảnh, tải media và hiệu ứng để nội dung đầu tiên hiển thị nhanh trên 4G.
-- [ ] Chạy một lượt thử nghiệm thật với ít nhất một người gửi ngoài quản trị viên.
+- [x] Kiểm thử lời chúc văn bản và video hợp lệ.
+- [x] Kiểm thử file quá 30 MB, sai định dạng, thiếu tên, mất mạng và gửi trùng.
+- [x] Xác nhận nội dung `pending`/`rejected` không xuất hiện trên trang quà.
+- [x] Kiểm thử signed URL hết hạn và quyền truy cập media.
+- [x] Kiểm thử cookie hết hạn, đăng xuất và mật khẩu sai.
+- [x] Kiểm thử mốc đóng form, đếm ngược và giờ mở quà.
+- [x] Kiểm thử các trường hợp tổng lời chúc nhỏ/lẻ cho công thức 70%.
+- [~] Kiểm thử Chrome ở viewport điện thoại 360×640 đã đạt; Safari trên iPhone thật và mạng 4G cần xác nhận trên thiết bị đích.
+- [x] Kiểm thử reduced motion, độ tương phản, bàn phím và trình đọc màn hình ở mức cơ bản.
+- [~] Đã kiểm thử fallback khi autoplay bị chặn và video không sẵn sàng; cần phát lại với nhạc/video chính thức ở Giai đoạn 7.
+- [x] Tối ưu ảnh, tải media và hiệu ứng để nội dung đầu tiên hiển thị nhanh trên 4G.
+- [!] Chạy một lượt thử nghiệm thật với ít nhất một người gửi ngoài quản trị viên — cần một người thật mở link và gửi nội dung.
 
 **Tiêu chí nghiệm thu:** Không còn lỗi nghiêm trọng trong các luồng chính; không có media riêng tư bị lộ; trải nghiệm chấp nhận được trên các thiết bị mục tiêu.
 
@@ -239,3 +240,6 @@ Một giai đoạn chỉ được coi là hoàn thành khi đạt tiêu chí ngh
 | 13/09/2026 | Chạy hoạt ảnh kết sao thành trái tim sau khi đóng lời chúc đạt ngưỡng; bỏ qua chuyển động nếu hệ điều hành bật reduced motion | Không che nội dung đang đọc và tôn trọng lựa chọn hỗ trợ tiếp cận của người dùng |
 | 13/09/2026 | Lưu nhạc và video kết trong bucket `gift-assets` private, phát qua route xác thực và dùng placeholder khi chưa có file chính thức | Hoàn thiện luồng trước khi nội dung cá nhân sẵn sàng mà không công khai media hoặc ghi object path vào client |
 | 13/09/2026 | Chỉ thử phát nhạc sau thao tác người dùng, cung cấp nút bật/tắt và tạm dừng nhạc trong lúc video phát | Tuân thủ chính sách autoplay của trình duyệt và tránh hai luồng âm thanh phát chồng nhau |
+| 13/09/2026 | Tách các quy tắc lịch, phiên, mật khẩu, signed URL, media và tiến độ thành hàm thuần với bộ kiểm thử Node | Có thể kiểm tra các trường hợp biên lặp lại mà không cần dùng secret hoặc thay đổi dữ liệu production |
+| 13/09/2026 | Luôn tính lại quyền mở phần kết từ các lời chúc `approved` hiện tại thay vì tin cờ cũ trong `localStorage` | Ngăn phần kết mở sớm nếu quản trị viên duyệt thêm lời chúc sau lần xem trước |
+| 13/09/2026 | Chuẩn hóa avatar mới thành WebP tối đa 1024×1024 trước khi upload private | Giảm dung lượng tải trên điện thoại và loại bỏ ảnh gốc quá lớn khỏi luồng hiển thị |

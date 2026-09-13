@@ -2,6 +2,7 @@ import "server-only";
 
 import { hasValidAdminSession } from "@/lib/admin-session.server";
 import { hasValidGiftSession } from "@/lib/gift-session.server";
+import { resolveSignedUrlTtlSeconds } from "@/lib/signed-url-policy";
 import { verifyWishEditToken } from "@/lib/wish-edit-token.server";
 
 type WishContentType = "text" | "video";
@@ -17,9 +18,6 @@ export type AdminModerationResult =
 
 const UUID_PATTERN =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-const DEFAULT_SIGNED_URL_TTL_SECONDS = 5 * 60;
-const MIN_SIGNED_URL_TTL_SECONDS = 60;
-const MAX_SIGNED_URL_TTL_SECONDS = 15 * 60;
 
 export type WishInsert = {
   id: string;
@@ -158,7 +156,7 @@ async function ensureSuccessful(response: Response, operation: string) {
 export async function uploadPrivateObject(
   bucket: string,
   path: string,
-  file: File,
+  file: Blob,
   contentType: string,
 ): Promise<void> {
   const config = getSupabaseAdminConfig();
@@ -904,16 +902,7 @@ function createMessagePreview(message: string): string {
 }
 
 function getSignedUrlTtlSeconds(): number {
-  const configured = Number(process.env.SIGNED_URL_TTL_SECONDS);
-
-  if (!Number.isSafeInteger(configured)) {
-    return DEFAULT_SIGNED_URL_TTL_SECONDS;
-  }
-
-  return Math.min(
-    Math.max(configured, MIN_SIGNED_URL_TTL_SECONDS),
-    MAX_SIGNED_URL_TTL_SECONDS,
-  );
+  return resolveSignedUrlTtlSeconds(process.env.SIGNED_URL_TTL_SECONDS);
 }
 
 function getGiftAssetPath(kind: GiftAssetKind): string | undefined {
